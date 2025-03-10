@@ -2,10 +2,14 @@ NAME = webserv
 
 OBJ = \
 		src/main.o \
+		src/Socket/WebservSocket.o \
+		src/Socket/Socket.o \
+		src/Request/Request.o \
+		src/Response/Response.o \
 
 all: $(NAME)
 
-megaphone: $(OBJ)
+$(NAME): $(OBJ)
 	c++ $^ -o $@
 
 %.o: %.cpp
