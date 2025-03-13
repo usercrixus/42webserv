@@ -1,31 +1,33 @@
 #include "WebservSocket.hpp"
+#include "../Method/IMethod.hpp"
+#include "../Method/MethodDelete.hpp"
+#include "../Method/MethodGet.hpp"
+#include "../Method/MethodPost.hpp"
 
 WebservSocket::WebservSocket(int port) : _port(port), _serverFd(-1) {}
 
-WebservSocket::~WebservSocket() {
+WebservSocket::~WebservSocket()
+{
     if (_serverFd != -1) {
         close(_serverFd);
         std::cout << "Server socket closed." << std::endl;
     }
 }
 
-void WebservSocket::setupSocket() {
-    // Configure address
+void WebservSocket::setupSocket()
+{
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(_port);
-
-    // Apply socket setup logic
     _socket.setOptions();
     _socket.bindSocket(_address);
     _socket.listenSocket(10);
-
-    _serverFd = _socket.getFd();  // Store the file descriptor in _serverFd
-
+    _serverFd = _socket.getFd();
     std::cout << "Server listening on port " << _port << std::endl;
 }
 
-void WebservSocket::setupPoll() {
+void WebservSocket::setupPoll()
+{
     _fds[0].fd = _serverFd;
     _fds[0].events = POLLIN;
 }
@@ -35,56 +37,50 @@ void WebservSocket::waitConnection()
     if (poll(_fds, 1, -1) == -1)
         throw std::runtime_error("waitConnection() error");
 }
+std::string readSocketData(int socketFd)
+{
+    std::string data;
+    char buffer[1024];
+    int bytesRead;
+    
+    while (data.find("\r\n\r\n") == std::string::npos 
+            && (bytesRead = recv(socketFd, buffer, sizeof(buffer) - 1, 0)) > 0) {
+        buffer[bytesRead] = '\0';
+        data.append(buffer, bytesRead);
+    }
+    return data;
+}
 
-void WebservSocket::handleIncomingConnection() {
+
+void WebservSocket::handleIncomingConnection()
+{
     if (_fds[0].revents & POLLIN) {
         int newClient = accept(_serverFd, NULL, NULL);
         if (newClient < 0) {
             throw std::runtime_error("handleIncomingConnection() error");
-        } else {
-            std::cout << "New client connected!" << std::endl;
-
-            char buffer[1024];
-            int bytesRead = recv(newClient, buffer, sizeof(buffer) - 1, 0);
-            if (bytesRead <= 0) {
-                close(newClient);
-                return;
-            }
-
-            buffer[bytesRead] = '\0'; // Null-terminate the received data
-
-            // Process the request
-            Request request(buffer);
-            Response response;
-
-            // Determine the HTTP method
-            IMethod* methodHandler = NULL;
-            if (request.getMethod() == "GET") {
-                methodHandler = new MethodGet();
-            } else if (request.getMethod() == "POST") {
-                methodHandler = new MethodPost();
-            } else if (request.getMethod() == "DELETE") {
-                methodHandler = new MethodDelete();
-            } else {
-                response.setStatus(405); // Method Not Allowed
-                response.setBody("405 Method Not Allowed");
-            }
-
-            // Handle request with the appropriate class
-            if (methodHandler) {
-                methodHandler->handle(request, response);
-                delete methodHandler; // Clean up the dynamically allocated object
-            }
-
-            // Send the response
-            std::string fullResponse = response.toString();
-            send(newClient, fullResponse.c_str(), fullResponse.size(), 0);
-            close(newClient);
         }
+        std::cout << "New client connected!" << std::endl;
+        std::string requestData = readSocketData(newClient);
+        if (!requestData.empty()) {
+            Request request(requestData, newClient);
+            IMethod *methodHandler;
+            methodHandler = NULL;
+            if (request.getMethod() == "GET")
+                methodHandler = new MethodGet(request);
+            else if (request.getMethod() == "POST")
+                methodHandler = new MethodPost(request);
+            else if (request.getMethod() == "DELETE")
+                methodHandler = new MethodDelete(request);
+
+            methodHandler->handle();
+            delete methodHandler;
+        }
+        close(newClient);
     }
 }
 
-void WebservSocket::run() {
+void WebservSocket::run()
+{
     while (true) {
         try
         {

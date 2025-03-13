@@ -12,12 +12,7 @@
 #include <string.h>
 #include "Socket.hpp"
 
-#include "WebservSocket.hpp"
 #include "../Request/Request.hpp"
-#include "../Method/MethodGet.hpp"
-#include "../Method/MethodPost.hpp"
-#include "../Method/MethodDelete.hpp"
-
 
 class WebservSocket {
 	private:

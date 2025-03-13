@@ -6,6 +6,10 @@ OBJ = \
 		src/Socket/Socket.o \
 		src/Request/Request.o \
 		src/Response/Response.o \
+		src/Method/MethodPost.o \
+		src/Method/MethodGet.o \
+		src/Method/MethodDelete.o \
+		src/Method/IMethod.o \
 
 all: $(NAME)
 

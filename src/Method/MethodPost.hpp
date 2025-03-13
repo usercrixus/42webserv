@@ -6,9 +6,10 @@
 
 class MethodPost : public IMethod {
 public:
-    void handle(const Request& request, Response& response) {
-        response.setBody("POST method received with body:\n" + request.getBody());
-    }
+    MethodPost(Request &request);
+    ~MethodPost();
+    
+    void handle();
 };
 
 #endif // METHODPOST_HPP

@@ -6,9 +6,10 @@
 
 class MethodDelete : public IMethod {
 public:
-    void handle(const Request& request, Response& response) {
-        response.setBody("DELETE method received for path: " + request.getPath());
-    }
+    MethodDelete(Request &request);
+    ~MethodDelete();
+    
+    void handle();
 };
 
 #endif // METHODDELETE_HPP

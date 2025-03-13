@@ -2,20 +2,18 @@
 #define METHODGET_HPP
 
 #include "IMethod.hpp"
+#include "../Request/Request.hpp"
+
 #include <iostream>
 
 class MethodGet : public IMethod {
-public:
-    void handle(const Request& request, Response& response) {
-        if (request.getPath() == "/") {
-            response.setBody("Welcome to Webserv <3 !");
-        } else if (request.getPath() == "/hello") {
-            response.setBody("Hello World!");
-        } else {
-            response.setStatus(404);
-            response.setBody("404 Not Found");
-        }
-    }
+    private:
+
+    public:
+        MethodGet(Request &request);
+        ~MethodGet();
+
+        void handle();
 };
 
 #endif // METHODGET_HPP

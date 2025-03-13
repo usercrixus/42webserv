@@ -1,12 +1,13 @@
 #include "Request.hpp"
-#include <sstream>
-#include <iostream>
 
-Request::Request(const std::string& rawRequest) {
+Request::Request(const std::string& rawRequest, int client):
+_client(client)
+{
     parse(rawRequest);
 }
 
-void Request::parse(const std::string& rawRequest) {
+void Request::parse(const std::string& rawRequest)
+{
     std::istringstream requestStream(rawRequest);
     std::string line;
 
@@ -47,4 +48,9 @@ std::string Request::getHeader(const std::string& key) const
 
 std::string Request::getBody() const {
     return _body;
+}
+
+int Request::getClient() const
+{
+    return _client;
 }

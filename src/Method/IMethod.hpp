@@ -5,9 +5,15 @@
 #include "../Response/Response.hpp"
 
 class IMethod {
-public:
-    virtual ~IMethod() {}
-    virtual void handle(const Request& request, Response& response) = 0;
+    protected:
+        Request _request;
+        Response _response;
+
+    public:
+        IMethod(Request &request);
+        virtual ~IMethod();
+        
+        virtual void handle() = 0;
 };
 
 #endif // IMETHOD_HPP
