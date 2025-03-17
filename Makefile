@@ -10,6 +10,15 @@ OBJ = \
 		src/Method/MethodGet.o \
 		src/Method/MethodDelete.o \
 		src/Method/IMethod.o \
+		src/Config/Parsing/parsing.o \
+		src/Config/Parsing/Limit.o \
+		src/Config/Data/Data.o \
+		src/Config/Data/File.o \
+		src/Config/Data/Route.o \
+		src/Config/Data/Methods.o \
+		src/Config/Data/Server.o \
+		src/Config/Data/Http.o \
+		src/Config/Data/Events.o \
 
 all: $(NAME)
 
