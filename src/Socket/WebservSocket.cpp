@@ -4,6 +4,8 @@
 #include "../Method/MethodGet.hpp"
 #include "../Method/MethodPost.hpp"
 
+WebservSocket::WebservSocket(): _port(-1), _serverFd(-1) {}
+
 WebservSocket::WebservSocket(int port) : _port(port), _serverFd(-1) {}
 
 WebservSocket::~WebservSocket()
@@ -12,6 +14,11 @@ WebservSocket::~WebservSocket()
         close(_serverFd);
         std::cout << "Server socket closed." << std::endl;
     }
+}
+
+void WebservSocket::setPort(int port)
+{
+    _port = port;
 }
 
 void WebservSocket::setupSocket()

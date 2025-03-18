@@ -23,9 +23,11 @@ class WebservSocket {
 		struct pollfd _fds[1];
 
 	public:
+		WebservSocket();
 		WebservSocket(int port);
 		~WebservSocket();
 
+		void setPort(int port);
 		void setupSocket();
 		void setupPoll();
 		void waitConnection();

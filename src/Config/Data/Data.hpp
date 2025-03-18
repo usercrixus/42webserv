@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Data.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:10:32 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/14 15:05:10 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:19:52 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 # include "Http.hpp"
 # include "Events.hpp"
 
-class Data {
+# define CONFIG_PATH "webservConfig.conf"
 
+class Data {
 	private :
+	    static Data* instance;
+
 		Http												_http;
 		Events												_events;
 		unsigned int										_workerProcesses;
 		std::map<std::string, std::vector<std::string> >	_data;
-	
-	public :
+
 		Data();
-		Data(std::string configFile);
 		~Data();
-		
-		//methods
+	public :
+		static Data* getInstance();
 
 		void	parseData(std::string configFile);
 		void	init();

@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Data.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/17 16:45:36 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/18 00:22:45 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Data.hpp"
 
-Data::Data() {}
+Data* Data::instance = NULL;
 
-Data::Data(std::string configFile) {
-	this->parseData(configFile);
+Data::Data()
+{
+	this->parseData(CONFIG_PATH);
 	//std::cout << "Data constructed!" << std::endl;
 	this->init();
 	printData(*this);
@@ -98,4 +99,11 @@ Http Data::getHttp() {
 }
 Events Data::getEvents() {
 	return _events;
+}
+
+Data* Data::getInstance() {
+    if (!instance) {
+        instance = new Data();  // Lazy instantiation
+    }
+    return instance;
 }
