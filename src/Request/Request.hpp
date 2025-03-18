@@ -16,12 +16,14 @@ class Request {
 		std::map<std::string, std::string> _headers;
 		std::string _body;
 		int _client;
+		int _serverId;
 
 	public:
-		Request(const std::string& rawRequest, int client);
+		Request(const std::string& rawRequest, int client, int serverId);
 
 		void parse(const std::string& rawRequest);
 
+		int getServerId() const;
 		std::string getMethod() const;
 		std::string getPath() const;
 		std::string getHeader(const std::string& key) const;

@@ -1,7 +1,8 @@
 #include "Request.hpp"
 
-Request::Request(const std::string& rawRequest, int client):
-_client(client)
+Request::Request(const std::string& rawRequest, int client, int serverId):
+_client(client),
+_serverId(serverId)
 {
     parse(rawRequest);
 }
@@ -33,7 +34,13 @@ void Request::parse(const std::string& rawRequest)
     _body = bodyStream.str();  // Copy the entire buffer into `_body`
 }
 
-std::string Request::getMethod() const {
+int Request::getServerId() const
+{
+    return _serverId;
+}
+
+std::string Request::getMethod() const
+{
     return _method;
 }
 

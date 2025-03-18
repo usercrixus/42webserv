@@ -16,21 +16,21 @@ WebservSocket::~WebservSocket()
     }
 }
 
-void WebservSocket::setPort(int port)
+void WebservSocket::setId(int id)
 {
-    _port = port;
+    _id = id;
 }
 
 void WebservSocket::setupSocket()
 {
     _address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
-    _address.sin_port = htons(_port);
+    _address.sin_port = htons(Data::getInstance()->getHttp().getServers()[_id].getListen());
     _socket.setOptions();
     _socket.bindSocket(_address);
     _socket.listenSocket(10);
     _serverFd = _socket.getFd();
-    std::cout << "Server listening on port " << _port << std::endl;
+    std::cout << "Server listening on port " << Data::getInstance()->getHttp().getServers()[_id].getListen() << std::endl;
 }
 
 void WebservSocket::setupPoll()
@@ -69,7 +69,7 @@ void WebservSocket::handleIncomingConnection()
         std::cout << "New client connected!" << std::endl;
         std::string requestData = readSocketData(newClient);
         if (!requestData.empty()) {
-            Request request(requestData, newClient);
+            Request request(requestData, newClient, _id);
             IMethod *methodHandler;
             methodHandler = NULL;
             if (request.getMethod() == "GET")
@@ -78,7 +78,6 @@ void WebservSocket::handleIncomingConnection()
                 methodHandler = new MethodPost(request);
             else if (request.getMethod() == "DELETE")
                 methodHandler = new MethodDelete(request);
-
             methodHandler->handle();
             delete methodHandler;
         }

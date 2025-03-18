@@ -15,8 +15,9 @@ MethodGet::~MethodGet()
 
 void MethodGet::handle()
 {
-	std::string path = "html/" + _request.getPath();
-    std::ifstream file(path.c_str());
+	std::string path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	std::cout << path << std::endl;
+	std::ifstream file(path.c_str());
     if (!file) {
 		_response.setStatus(404);
 		_response.setBody("404 Not Found");

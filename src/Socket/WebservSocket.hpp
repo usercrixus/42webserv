@@ -13,9 +13,11 @@
 #include "Socket.hpp"
 
 #include "../Request/Request.hpp"
+#include "../Config/Data/Data.hpp"
 
 class WebservSocket {
 	private:
+		int _id;
 		int _port;
 		int _serverFd;
 		struct sockaddr_in _address;
@@ -27,7 +29,7 @@ class WebservSocket {
 		WebservSocket(int port);
 		~WebservSocket();
 
-		void setPort(int port);
+		void setId(int id);
 		void setupSocket();
 		void setupPoll();
 		void waitConnection();

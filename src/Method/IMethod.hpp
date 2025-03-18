@@ -3,6 +3,7 @@
 
 #include "../Request/Request.hpp"
 #include "../Response/Response.hpp"
+#include "../Config/Data/Data.hpp"
 
 class IMethod {
     protected:

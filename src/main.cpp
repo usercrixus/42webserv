@@ -1,18 +1,30 @@
 #include "Socket/WebservSocket.hpp"
 #include "Config/Data/Data.hpp"
+#include <unistd.h>
+#include <sys/wait.h>
 
 int main() {
     try
     {
         WebservSocket servers[Data::getInstance()->getHttp().getServers().size()];
+        size_t i;
         
-        for (size_t i = 0; i < Data::getInstance()->getHttp().getServers().size(); i++)
+        i = 0;
+        while (i < Data::getInstance()->getHttp().getServers().size())
         {
-            servers[i].setPort(Data::getInstance()->getHttp().getServers()[i].getListen());
-            servers[i].setupSocket();
-            servers[i].setupPoll();
-            servers[i].run();
+            int pid = fork();
+            if (!pid)
+            {
+                servers[i].setId(i);
+                servers[i].setupSocket();
+                servers[i].setupPoll();
+                servers[i].run();
+            }
+            else
+                i++;
         }
+        while (i--)
+            waitpid(-1, NULL, 0);
     }
     catch(const std::exception& e)
     {
