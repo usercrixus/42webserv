@@ -18,7 +18,6 @@
 class WebservSocket {
 	private:
 		int _id;
-		int _port;
 		int _serverFd;
 		struct sockaddr_in _address;
 		Socket _socket;

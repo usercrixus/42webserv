@@ -4,9 +4,7 @@
 #include "../Method/MethodGet.hpp"
 #include "../Method/MethodPost.hpp"
 
-WebservSocket::WebservSocket(): _port(-1), _serverFd(-1) {}
-
-WebservSocket::WebservSocket(int port) : _port(port), _serverFd(-1) {}
+WebservSocket::WebservSocket(): _serverFd(-1) {}
 
 WebservSocket::~WebservSocket()
 {

@@ -1,6 +1,8 @@
 #ifndef IMETHOD_HPP
 #define IMETHOD_HPP
 
+#include <string>
+
 #include "../Request/Request.hpp"
 #include "../Response/Response.hpp"
 #include "../Config/Data/Data.hpp"
@@ -13,8 +15,10 @@ class IMethod {
     public:
         IMethod(Request &request);
         virtual ~IMethod();
-        
-        virtual void handle() = 0;
+
+		std::string urlDecode(const std::string &str);
+
+		virtual void handle() = 0;
 };
 
 #endif // IMETHOD_HPP
