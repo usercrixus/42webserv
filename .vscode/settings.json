@@ -53,6 +53,7 @@
         "fstream": "cpp",
         "set": "cpp",
         "ranges": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "cstring": "cpp"
     }
 }
