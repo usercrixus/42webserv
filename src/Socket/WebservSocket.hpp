@@ -25,7 +25,6 @@ class WebservSocket {
 
 	public:
 		WebservSocket();
-		WebservSocket(int port);
 		~WebservSocket();
 
 		void setId(int id);

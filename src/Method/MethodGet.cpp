@@ -26,6 +26,7 @@ void MethodGet::handle()
 	{
 		std::stringstream buffer;
 		buffer << file.rdbuf();
+		_response.setStatus(404);
 		_response.setBody(buffer.str());
 	}
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);

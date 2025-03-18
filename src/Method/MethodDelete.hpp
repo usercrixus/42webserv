@@ -3,6 +3,7 @@
 
 #include "IMethod.hpp"
 #include <iostream>
+#include <string.h>
 
 class MethodDelete : public IMethod {
 public:
