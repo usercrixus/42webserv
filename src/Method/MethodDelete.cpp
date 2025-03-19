@@ -22,13 +22,13 @@ void MethodDelete::handle()
     std::string fullPath = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
     if (!deleteFile(urlDecode(fullPath)))
     {
-        response.setStatus(404);
         response.setBody("404 Not Found");
+        response.setHeader(404);
     }
     else
     {
-        response.setStatus(204);
         response.setBody("204 No Content");
+        response.setHeader(204);
     }
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);
 }

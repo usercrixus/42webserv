@@ -12,10 +12,7 @@ MethodPost::~MethodPost()
 // Splits the URL into path and args
 std::vector<std::string> MethodPost::getPathAndArgs()
 {
-    std::string path;
-    std::string args;
     std::string fullPath = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
-    size_t pos = fullPath.find('?');
     std::vector<std::string> result;
     result.push_back(fullPath);
     result.push_back(_request.getBody());
@@ -82,8 +79,8 @@ void MethodPost::handle()
     int pid = createChildProcess(argv, pipefd);
     std::string output = readPipeOutput(pipefd);
     waitpid(pid, NULL, 0);
-    response.setStatus(200);
     response.setBody(output);
+    response.setHeader(200);
     send(_request.getClient(), response.toString().c_str(), response.toString().size(), 0);
     free(argv[0]);
     free(argv[1]);

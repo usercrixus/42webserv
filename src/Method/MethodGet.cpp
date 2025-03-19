@@ -36,22 +36,22 @@ void MethodGet::handle()
 	*/
 	std::ifstream file(urlDecode(path).c_str());
     if (!file) {
-		_response.setStatus(404);
 		_response.setBody("404 Not Found");
+		_response.setHeader(404);
 	}
 	else
 	{
 		std::ifstream file(urlDecode(path).c_str());
 		if (!file) {
-			_response.setStatus(404);
 			_response.setBody("404 Not Found");
+			_response.setHeader(404);
 		}
 		else
 		{
 			buffer << file.rdbuf();
-			_response.setStatus(404);
 			_response.setBody(buffer.str());
+			_response.setHeader(200);
 		}
-		send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);
 	}
+	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);
 }
