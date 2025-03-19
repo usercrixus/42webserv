@@ -29,6 +29,10 @@ void MethodGet::handle()
 		// _response.setStatus(Cgi.getStatus());
 		// _response.setBody(Cgi.getBody());
 		}
+	else
+	{
+		// le reste
+	}
 	*/
 	std::ifstream file(urlDecode(path).c_str());
     if (!file) {
