@@ -1,5 +1,56 @@
 #include "Cgi.hpp"
 
+std::string getPathInfo(std::string &path, std::string &root)
+{
+    size_t queryPos = path.find('?');
+    std::string relativePath;
+    if (queryPos != std::string::npos)
+        relativePath = path.substr(root.length(), queryPos - root.length());
+    else
+        relativePath = path.substr(root.length());
+    return relativePath;
+}
+
+std::string getQueryString(std::string &path)
+{    
+    size_t queryPos = path.find('?');
+
+    if (queryPos != std::string::npos)
+        return path.substr(queryPos + 1);
+    else
+        return "";
+}
+
+std::string getScriptFilename(const std::string& path)
+{
+    std::vector<std::string> cgiExtensions;
+    cgiExtensions.push_back(".cgi");
+    cgiExtensions.push_back(".pl");
+    cgiExtensions.push_back(".php");
+    cgiExtensions.push_back(".rb");
+    cgiExtensions.push_back(".sh");
+    cgiExtensions.push_back(".py");
+    std::string FoundExtension;
+    size_t firstOccurrence = std::string::npos;
+    std::vector<std::string>::iterator ite = cgiExtensions.end();
+
+    for (std::vector<std::string>::iterator it = cgiExtensions.begin(); it != ite; it++)
+    {
+        size_t pos = path.find(*it);
+        if (pos != std::string::npos)
+        {
+            if (firstOccurrence == std::string::npos || pos < firstOccurrence)
+            {
+                firstOccurrence = pos;
+                FoundExtension = *it;
+            }
+        }
+    }
+    if (firstOccurrence != std::string::npos)
+        return path.substr(0, firstOccurrence + FoundExtension.length());
+    return "";
+}
+
 void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 {
 	(void)request;
@@ -8,10 +59,11 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 
 void	Cgi::HandleCgiGET(Request& request, std::string& path)
 {
-	std::string root = "CGI";
-	std::string PATH_INFO = path;
-	std::string SCRIPT_FILENAME = "script.php";
-	std::string CGI_PATH = "/usr/bin/php";
+	std::string root = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoot();
+    std::string PATH_INFO = getPathInfo(path, root);
+	std::string SCRIPT_FILENAME = getScriptFilename(path);
+    std::string QUERY_STRING = getQueryString(path);
+	std::string CGI_PATH = "/usr/bin/php"; //recuperer ca dans le .conf --> parsing ligne cgi_path ...
 
 	// if (path.find("/api") != 0)
 	// {
@@ -42,9 +94,9 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
     argv.push_back(NULL);
 	std::vector<std::string> env_strings;
     env_strings.push_back("REQUEST_METHOD=GET");
-	env_strings.push_back("SCRIPT_FILENAME=script.php");
-	env_strings.push_back("PATH_INFO=");
-	env_strings.push_back("QUERY_STRING=name=alice");
+	env_strings.push_back("SCRIPT_FILENAME=" + SCRIPT_FILENAME);
+	env_strings.push_back("PATH_INFO=" + PATH_INFO);
+	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
 	env_strings.push_back("CONTENT_LENGTH=0");
     env_strings.push_back("CONTENT_TYPE=");
 	std::vector<char*> envp;
@@ -65,7 +117,6 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
-        chdir("/home/gmorel/cercle5/webservgrp/src/CGI"); // Répertoire d'exécution
         execve(CGI_PATH.c_str(), argv.data(), envp.data());
         std::cerr << "Erreur lors de l'exécution du CGI\n";
         exit(1);
@@ -83,7 +134,6 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
         }
         close(pipefd[0]);
         waitpid(pid, NULL, 0);
-		std::cout << "============" << response << std::endl;
         if (!response.empty()) {
             _status = 200;
             _body = response;
