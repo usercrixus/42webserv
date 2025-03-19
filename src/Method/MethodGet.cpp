@@ -1,4 +1,5 @@
 #include "MethodGet.hpp"
+#include "../CGI/Cgi.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
