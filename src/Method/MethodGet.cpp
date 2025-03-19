@@ -17,6 +17,9 @@ void MethodGet::handle()
 {
 	std::string path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
 	std::cout << path << std::endl;
+	// Cgi Cgi(_request, path);
+	// _response.setStatus(Cgi.getStatus());
+	// _response.setBody(Cgi.getBody());
 	std::ifstream file(urlDecode(path).c_str());
     if (!file) {
 		_response.setStatus(404);
