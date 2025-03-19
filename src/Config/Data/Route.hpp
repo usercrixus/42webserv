@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:45:34 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/17 15:39:36 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:18:58 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ class Route {
 		int										_redirectionCode;
 		bool									_internal;
 		bool									_autoIndex;
-		std::string								_fastcgiPass;
-		std::string								_fastcgiIndex;
-		std::map<std::string, std::string>		_fastcgiParam;
-		std::vector<std::string>				_include;
+		std::string								_cgi_path;
+		// bool									_cgi;
+		// std::string								_fastcgiPass;
+		// std::string								_fastcgiIndex;
+		// std::map<std::string, std::string>		_fastcgiParam;
+		// std::vector<std::string>				_include;
 		std::string								_clientBodyTempPath;
 		std::string								_uploadMaxFilesize;
 		std::string								_clientMaxBodysize;
@@ -43,11 +45,11 @@ class Route {
 		public :
 		Route();
 		Route(const Route &route);
-		Route(std::map<std::string, std::vector<std::string> > data, std::map<std::string, std::string> fastcgiParam, std::string location, Methods method, std::map<int, File> errorFiles);
+		Route(std::map<std::string, std::vector<std::string> > data, std::string location, Methods method, std::map<int, File> errorFiles);
 		~Route();
 		
 		// methods
-		void init(std::map<std::string, std::vector<std::string> > data, std::map<std::string, std::string> fastcgiParam, std::string location, Methods method, std::map<int, File> errorFiles);
+		void init(std::map<std::string, std::vector<std::string> > data, std::string location, Methods method, std::map<int, File> errorFiles);
 
 		// getters
 		const std::map<std::string, File>&			getFiles();
@@ -61,10 +63,12 @@ class Route {
 		int											getRedirectionCode();
 		bool										getInternal();
 		bool										getAutoIndex();
-		std::string									getFastcgiPass();
-		std::string									getFastcgiIndex();
-		const std::map<std::string, std::string>&	getFastcgiParam();
-		const std::vector<std::string>&				getInclude();
+		// bool										getCgi();
+		std::string									getCgiPath();
+		// std::string									getFastcgiPass();
+		// std::string									getFastcgiIndex();
+		// const std::map<std::string, std::string>&	getFastcgiParam();
+		// const std::vector<std::string>&				getInclude();
 		std::string									getClientBodyTempPath();
 		std::string									getUploadMaxFilesize();
 		std::string									getClientMaxBodysize();

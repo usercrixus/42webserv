@@ -19,6 +19,7 @@ OBJ = \
 		src/Config/Data/Server.o \
 		src/Config/Data/Http.o \
 		src/Config/Data/Events.o \
+		src/CGI/Cgi.o \
 
 all: $(NAME)
 

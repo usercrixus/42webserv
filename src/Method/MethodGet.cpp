@@ -1,4 +1,5 @@
 #include "MethodGet.hpp"
+#include "../CGI/Cgi.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -17,13 +18,22 @@ void MethodGet::handle()
 {
 	std::stringstream buffer;
 	std::string path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	std::cout << path << std::endl;
+	/*
 	if (path.compare(0, 4, "/cgi") == 0)
 	{
 		// TODO CGI
-		/*
-		 * Objectif :
-		 * Remplir std::stringstream buffer; avec les données a renvoyer.
-		 */
+		Objectif :
+		Remplir std::stringstream buffer; avec les données a renvoyer.
+		// Cgi Cgi(_request, path);
+		// _response.setStatus(Cgi.getStatus());
+		// _response.setBody(Cgi.getBody());
+		}
+	*/
+	std::ifstream file(urlDecode(path).c_str());
+    if (!file) {
+		_response.setStatus(404);
+		_response.setBody("404 Not Found");
 	}
 	else
 	{
