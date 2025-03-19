@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/17 22:17:48 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:18:36 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,21 @@ Methods	parseLimit(std::vector<std::string> key, std::ifstream &file) {
 
 Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 	std::map<std::string, Limit> keywords;
-	keywords["include"] = Limit();
+	// keywords["include"] = Limit();
 	keywords["root"] = Limit(1, 1);
 	keywords["autoindex"] = Limit(1, 1);
 	keywords["internal"] = Limit(0, 0);
 	keywords["return"] = Limit(1, 2);
-	keywords["fastcgi_pass"] = Limit(1, 1);
-	keywords["fastcgi_index"] = Limit(1, 1);
-	keywords["fastcgi_param"] = Limit(2, 2);
+	keywords["cgi_path"] = Limit(1, 1);
+	// keywords["fastcgi_pass"] = Limit(1, 1);
+	// keywords["fastcgi_index"] = Limit(1, 1);
+	// keywords["fastcgi_param"] = Limit(2, 2);
 	keywords["client_body_temp_path"] = Limit(1, 1);
 	keywords["upload_max_filesize"] = Limit(1, 1);
 	keywords["index"] = Limit(1, 1);
 	
 	std::map<std::string, std::vector<std::string> > data;
-	std::map<std::string, std::string > fastCgiParam;
+	// std::map<std::string, std::string > fastCgiParam;
 	std::map<int, File> errorFiles;
 	Methods method;
 	char c;
@@ -136,7 +137,7 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 		}
 		else if (c == '}') {
 			buf = ""; // vide le buffer pour parser un nouvel element
-			Route r(data, fastCgiParam, path, method, errorFiles);
+			Route r(data, path, method, errorFiles);
 			return r;
 		}
 		else if (c == ';') {
@@ -149,13 +150,13 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
 				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
 			}
-			if (content[0] == "fastcgi_param") {
-				if (content.size() != 3) {
-					throw std::logic_error("fastcgi_param is invalid.");
-				}
-				fastCgiParam[content[1]] = content[2];
-			}
-			else if (content[0] == "error_page") {
+			// if (content[0] == "fastcgi_param") {
+			// 	if (content.size() != 3) {
+			// 		throw std::logic_error("fastcgi_param is invalid.");
+			// 	}
+			// 	fastCgiParam[content[1]] = content[2];
+			// }
+			if (content[0] == "error_page") {
 				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
 					File file((content[content.size() - 1]));
 					errorFiles[atoi(content[i].c_str())] = file;
@@ -408,18 +409,19 @@ void printData(Data d) {
 			std::cout << "Route : _internal : " << c << std::endl;
 			c = r.getAutoIndex() == 1 ? "true" : "false";
 			std::cout << "Route : _autoIndex : " << c << std::endl;
-			std::cout << "Route : _fastcgiPass : " << r.getFastcgiPass() << std::endl;
-			std::cout << "Route : _fastcgiIndex : " << r.getFastcgiIndex() << std::endl;
-			std::cout << "Route : _fastcgiParams : key : ";
-			for (std::map<std::string, std::string>::const_iterator it = r.getFastcgiParam().begin(); it != r.getFastcgiParam().end(); it++) {
-				std::cout << it->first << " value : " << it->second << " | ";
-			}
-			std::cout << std::endl;
-			std::cout << "Route : _include : ";
-			for (std::vector<std::string>::const_iterator it = r.getInclude().begin(); it != r.getInclude().end(); it++) {
-				std::cout << *it << " | ";
-			}
-			std::cout << std::endl;
+			std::cout << "Route : _cgiPath : " << r.getCgiPath() << std::endl;
+			// std::cout << "Route : _fastcgiPass : " << r.getFastcgiPass() << std::endl;
+			// std::cout << "Route : _fastcgiIndex : " << r.getFastcgiIndex() << std::endl;
+			// std::cout << "Route : _fastcgiParams : key : ";
+			// for (std::map<std::string, std::string>::const_iterator it = r.getFastcgiParam().begin(); it != r.getFastcgiParam().end(); it++) {
+			// 	std::cout << it->first << " value : " << it->second << " | ";
+			// }
+			// std::cout << std::endl;
+			// std::cout << "Route : _include : ";
+			// for (std::vector<std::string>::const_iterator it = r.getInclude().begin(); it != r.getInclude().end(); it++) {
+			// 	std::cout << *it << " | ";
+			// }
+			// std::cout << std::endl;
 			Methods m = r.getMethods();
 			std::cout << "Route : Methods : _allowedMethods : ";
 			for (std::vector<std::string>::const_iterator it = m.getAllowedMethods().begin(); it != m.getAllowedMethods().end(); it++) {
