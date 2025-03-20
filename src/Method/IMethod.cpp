@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 18:38:00 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:53:40 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,24 @@ _request(request)
 
 IMethod::~IMethod()
 {
+}
+
+std::string IMethod::getFinalPath()
+{
+    std::string path;
+
+	path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	path = urlDecode(path);
+	int routesSize = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+    int i = 0;
+    while (i < routesSize)
+    {
+        std::string buffer = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
+        if (path.find(buffer) != std::string::npos)
+            path.replace(path.find(buffer), buffer.size(), Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getRoot());
+        i++;
+    }
+    return path;
 }
 
 std::string IMethod::urlDecode(const std::string& str)
