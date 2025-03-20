@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   MethodPost.hpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 18:37:54 by achaisne          #+#    #+#             */
+/*   Updated: 2025/03/20 18:37:56 by achaisne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef METHODPOST_HPP
 #define METHODPOST_HPP
 
@@ -10,11 +22,7 @@ public:
     MethodPost(Request &request);
     ~MethodPost();
     
-    std::vector<std::string> getPathAndArgs();
-	char **prepareArgv(const std::vector<std::string> &pathAndArgs);
-	int createChildProcess(char **argv, int pipefd[2]);
-	std::string readPipeOutput(int pipefd[0]);
-
+    void createFile(std::string path);
     void handle();
 };
 

@@ -1,0 +1,4 @@
+Post :
+curl -X POST -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}' http://localhost:8080/test
+Delete
+curl -X DELETE http://localhost:8080/test

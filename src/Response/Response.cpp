@@ -5,6 +5,7 @@ Response::Response() {}
 void Response::setStatus(int statusCode) {
     switch (statusCode) {
         case 200: _headers += "HTTP/1.1 200 OK\r\n"; break;
+        case 204: _headers += "HTTP/1.1 204 No Content\r\n"; break; 
         case 404: _headers += "HTTP/1.1 404 Not Found\r\n"; break;
         case 500: _headers += "HTTP/1.1 500 Internal Server Error\r\n"; break;
         default: _headers += "HTTP/1.1 500 Internal Server Error\r\n";
