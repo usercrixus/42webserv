@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodPost.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmorel <gmorel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 18:37:45 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:06:54 by gmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void MethodPost::handle()
 	std::string path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
 	if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
-        // TODO
-	}
+		Cgi cgi(_request, path);
+		_response.setBody(cgi.getBody());
+		_response.setHeader(cgi.getStatus());
+    }
     else
     {
         createFile(path);

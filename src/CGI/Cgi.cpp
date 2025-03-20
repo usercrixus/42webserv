@@ -95,7 +95,7 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	env_strings.push_back("PATH_INFO=" + PATH_INFO);
 	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
 	env_strings.push_back("CONTENT_LENGTH=");//a prendre dans le header de la requete
-    env_strings.push_back("CONTENT_TYPE="); //a prendre dans le header de la requete
+    env_strings.push_back("CONTENT_TYPE= "); //a prendre dans le header de la requete
     env_strings.push_back("REDIRECT_STATUS=" + REDIRECT_STATUS);
 	std::vector<char*> envp;
     for (size_t i = 0; i < env_strings.size(); ++i) {
