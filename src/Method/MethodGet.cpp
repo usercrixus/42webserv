@@ -42,9 +42,15 @@ void MethodGet::handle()
 	--> Root sur /var/www/content quand location /content correspond au path*/
 	if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
+<<<<<<< HEAD
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
 		_response.setHeader(cgi.getStatus());
+=======
+	Cgi Cgi(_request, path);
+	_response.setBody(Cgi.getBody());
+	_response.setHeader(Cgi.getStatus());
+>>>>>>> 1e2e4a5e795325966634f3cab483e223bf250940
 	}
 	else
 	{

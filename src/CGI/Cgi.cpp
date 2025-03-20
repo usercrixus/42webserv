@@ -69,8 +69,9 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	std::string SCRIPT_FILENAME = getScriptFilename(path);
     std::string QUERY_STRING = getQueryString(path);
 	std::string CGI_PATH = getCgiPath(request);
-    std::string CONTENT_LENGTH = ""; //a prendre dans le header de la requete
-    std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
+    // std::string CONTENT_LENGTH = ""; //a prendre dans le header de la requete
+    // std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
+    std::string REDIRECT_STATUS = "200";
 
     if (request.getMethod() != "POST")
 	{
@@ -95,6 +96,7 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
 	env_strings.push_back("CONTENT_LENGTH=");//a prendre dans le header de la requete
     env_strings.push_back("CONTENT_TYPE="); //a prendre dans le header de la requete
+    env_strings.push_back("REDIRECT_STATUS=" + REDIRECT_STATUS);
 	std::vector<char*> envp;
     for (size_t i = 0; i < env_strings.size(); ++i) {
         envp.push_back(const_cast<char*>(env_strings[i].c_str()));
@@ -153,6 +155,7 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
 	std::string SCRIPT_FILENAME = getScriptFilename(path);
     std::string QUERY_STRING = getQueryString(path);
 	std::string CGI_PATH = getCgiPath(request);
+    std::string REDIRECT_STATUS = "200";
 
     if (request.getMethod() != "GET")
 	{
@@ -177,6 +180,7 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
 	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
 	env_strings.push_back("CONTENT_LENGTH=0");
     env_strings.push_back("CONTENT_TYPE=");
+    env_strings.push_back("REDIRECT_STATUS=" + REDIRECT_STATUS);
 	std::vector<char*> envp;
     for (size_t i = 0; i < env_strings.size(); ++i) {
         envp.push_back(const_cast<char*>(env_strings[i].c_str()));
@@ -212,7 +216,14 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
         }
         close(pipefd[0]);
         waitpid(pid, NULL, 0);
-        if (!response.empty()) {
+        if (!response.empty())
+        {
+            if (response.compare(0, 12, "Content-type") == 0) // Suppression de la ligne inutile si execute avec php-cgi
+            {
+                size_t pos = response.find('\n'); //voir comment gerer autrement via setHeader
+                if (pos != std::string::npos)
+                    response.erase(0, pos + 1);
+            }
             _status = 200;
             _body = response;
             std::cout << response << std::endl;

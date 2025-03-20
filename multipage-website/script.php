@@ -1,5 +1,4 @@
 <?php
-
 // Récupérer la valeur de "name" depuis QUERY_STRING (via $_GET)
 $name = isset($_GET['name']) ? $_GET['name'] : "Inconnu";
 
