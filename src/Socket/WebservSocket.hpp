@@ -21,18 +21,15 @@ class WebservSocket {
 		int _serverFd;
 		struct sockaddr_in _address;
 		Socket _socket;
-		struct pollfd _fds[1];
 
 	public:
 		WebservSocket();
 		~WebservSocket();
 
+		int getServerFd() const;
+		int getId() const;
 		void setId(int id);
 		void setupSocket();
-		void setupPoll();
-		void waitConnection();
-		void handleIncomingConnection();
-		void run();
 };
 
 #endif // WEBSERVSOCKET_HPP

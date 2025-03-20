@@ -1,5 +1,6 @@
 #include "Socket/WebservSocket.hpp"
 #include "Config/Data/Data.hpp"
+#include "Socket/WebServerSocketRunner.hpp"
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -12,19 +13,14 @@ int main() {
         i = 0;
         while (i < Data::getInstance()->getHttp().getServers().size())
         {
-            int pid = fork();
-            if (!pid)
-            {
-                servers[i].setId(i);
-                servers[i].setupSocket();
-                servers[i].setupPoll();
-                servers[i].run();
-            }
-            else
-                i++;
+            servers[i].setId(i);
+            servers[i].setupSocket();
+            i++;
         }
-        while (i--)
-            waitpid(-1, NULL, 0);
+
+        WebServerSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
+        runner.setupPoll();
+        runner.run();
     }
     catch(const std::exception& e)
     {
