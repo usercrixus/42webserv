@@ -51,25 +51,27 @@ std::string getScriptFilename(const std::string& path)
     return "";
 }
 
+std::string getCgiPath(Request& request)
+{
+    std::vector<Route>::size_type nbrRoutes = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoutes().size();
+    for (size_t repair = 0; repair < nbrRoutes; repair++)
+    {
+        if (Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoutes()[repair].getCgiPath() != "")
+            return Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoutes()[repair].getCgiPath();
+    }
+    return NULL;
+}
+
 void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 {
 	std::string root = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoot();
     std::string PATH_INFO = getPathInfo(path, root);
 	std::string SCRIPT_FILENAME = getScriptFilename(path);
     std::string QUERY_STRING = getQueryString(path);
-	std::string CGI_PATH = "/usr/bin/php"; //recuperer ca dans le .conf --> parsing ligne cgi_path ...
+	std::string CGI_PATH = getCgiPath(request);
+    std::string CONTENT_LENGTH = ""; //a prendre dans le header de la requete
+    std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
 
-	// if (path.find("/api") != 0)
-	// {
-	// 	_status = 404;
-    //     _body = "404 Not Found";
-    //     return;
-    // }
-	// if (path.find(".php") == std::string::npos) {
-    //     _status = 404;
-    //     _body = "404 Not Found - Not a PHP file";
-    //     return;
-    // }
     if (request.getMethod() != "POST")
 	{
         _status = 405;
@@ -91,8 +93,8 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	env_strings.push_back("SCRIPT_FILENAME=" + SCRIPT_FILENAME);
 	env_strings.push_back("PATH_INFO=" + PATH_INFO);
 	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
-	env_strings.push_back("CONTENT_LENGTH=");//a prndre dans le header de la requete
-    env_strings.push_back("CONTENT_TYPE="); //a prndre dans le header de la requete
+	env_strings.push_back("CONTENT_LENGTH=");//a prendre dans le header de la requete
+    env_strings.push_back("CONTENT_TYPE="); //a prendre dans le header de la requete
 	std::vector<char*> envp;
     for (size_t i = 0; i < env_strings.size(); ++i) {
         envp.push_back(const_cast<char*>(env_strings[i].c_str()));
@@ -145,23 +147,13 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 
 void	Cgi::HandleCgiGET(Request& request, std::string& path)
 {
+
 	std::string root = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoot();
     std::string PATH_INFO = getPathInfo(path, root);
 	std::string SCRIPT_FILENAME = getScriptFilename(path);
     std::string QUERY_STRING = getQueryString(path);
-	std::string CGI_PATH = "/usr/bin/php"; //recuperer ca dans le .conf --> parsing ligne cgi_path ...
+	std::string CGI_PATH = getCgiPath(request);
 
-	// if (path.find("/api") != 0)
-	// {
-	// 	_status = 404;
-    //     _body = "404 Not Found";
-    //     return;
-    // }
-	// if (path.find(".php") == std::string::npos) {
-    //     _status = 404;
-    //     _body = "404 Not Found - Not a PHP file";
-    //     return;
-    // }
     if (request.getMethod() != "GET")
 	{
         _status = 405;
@@ -223,6 +215,7 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
         if (!response.empty()) {
             _status = 200;
             _body = response;
+            std::cout << response << std::endl;
         } 
 		else 
 		{

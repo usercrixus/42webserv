@@ -19,25 +19,11 @@ void MethodGet::handle()
 	std::stringstream buffer;
 	std::string path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
 	std::cout << path << std::endl;
-	/*
-	if (path.compare(0, 4, "/cgi") == 0)
+	if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
-		// TODO CGI
-		Objectif :
-		Remplir std::stringstream buffer; avec les données a renvoyer.
-		// Cgi Cgi(_request, path);
-		// _response.setStatus(Cgi.getStatus());
-		// _response.setBody(Cgi.getBody());
-		}
-	else
-	{
-		// le reste
-	}
-	*/
-	std::ifstream file(urlDecode(path).c_str());
-    if (!file) {
-		_response.setBody("404 Not Found");
-		_response.setHeader(404);
+		Cgi Cgi(_request, path);
+		_response.setBody(Cgi.getBody());
+		_response.setHeader(Cgi.getStatus());
 	}
 	else
 	{
