@@ -5,7 +5,7 @@
 #include "../Method/MethodGet.hpp"
 #include "../Method/MethodPost.hpp"
 
-class WebServerSocketRunner
+class WebServSocketRunner
 {
 private:
 	struct pollfd *_fds;
@@ -13,8 +13,8 @@ private:
 	int _serversSize;
 
 public:
-	WebServerSocketRunner(int size, WebservSocket *webservSocket);
-	~WebServerSocketRunner();
+	WebServSocketRunner(int size, WebservSocket *webservSocket);
+	~WebServSocketRunner();
 
 	void setupPoll();
 	WebservSocket &waitConnection();

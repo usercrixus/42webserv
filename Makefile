@@ -4,7 +4,7 @@ OBJ = \
 		src/main.o \
 		src/Socket/WebservSocket.o \
 		src/Socket/Socket.o \
-		src/Socket/WebServerSocketRunner.o \
+		src/Socket/WebServSocketRunner.o \
 		src/Request/Request.o \
 		src/Response/Response.o \
 		src/Method/MethodPost.o \

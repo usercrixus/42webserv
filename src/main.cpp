@@ -1,6 +1,6 @@
 #include "Socket/WebservSocket.hpp"
 #include "Config/Data/Data.hpp"
-#include "Socket/WebServerSocketRunner.hpp"
+#include "Socket/WebServSocketRunner.hpp"
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -18,7 +18,7 @@ int main() {
             i++;
         }
 
-        WebServerSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
+        WebServSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
         runner.setupPoll();
         runner.run();
     }

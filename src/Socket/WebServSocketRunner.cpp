@@ -1,6 +1,6 @@
-#include "WebServerSocketRunner.hpp"
+#include "WebServSocketRunner.hpp"
 
-WebServerSocketRunner::WebServerSocketRunner(int size, WebservSocket *webservSocket):
+WebServSocketRunner::WebServSocketRunner(int size, WebservSocket *webservSocket):
 _serversSize(size)
 
 {
@@ -11,12 +11,12 @@ _serversSize(size)
     }
 }
 
-WebServerSocketRunner::~WebServerSocketRunner()
+WebServSocketRunner::~WebServSocketRunner()
 {
 	delete[] _fds;
 }
 
-void WebServerSocketRunner::setupPoll()
+void WebServSocketRunner::setupPoll()
 {
     int index = 0;
     for (std::map<int, WebservSocket*>::iterator it = _webServerSockets.begin(); it != _webServerSockets.end(); ++it)
@@ -27,7 +27,7 @@ void WebServerSocketRunner::setupPoll()
     }
 }
 
-WebservSocket& WebServerSocketRunner::waitConnection()
+WebservSocket& WebServSocketRunner::waitConnection()
 {
     int ret = poll(_fds, _serversSize, -1);
     if (ret == -1)
@@ -62,7 +62,7 @@ std::string readSocketData(int socketFd)
     return data;
 }
 
-void WebServerSocketRunner::handleIncomingConnection(WebservSocket &buffer)
+void WebServSocketRunner::handleIncomingConnection(WebservSocket &buffer)
 {
     int newClient = accept(buffer.getServerFd(), NULL, NULL);
     if (newClient < 0)
@@ -89,7 +89,7 @@ void WebServerSocketRunner::handleIncomingConnection(WebservSocket &buffer)
 }
 
 
-void WebServerSocketRunner::run()
+void WebServSocketRunner::run()
 {
 	WebservSocket buffer;
     while (true) {
