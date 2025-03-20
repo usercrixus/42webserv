@@ -44,8 +44,6 @@ void Response::setConnection()
     _headers += "Connection: close\r\n";
 }
 
-#include <sstream> // For std::ostringstream
-
 void Response::setContentLen()
 {
     std::ostringstream oss;

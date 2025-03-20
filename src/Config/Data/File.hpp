@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   File.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:39:16 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/17 16:09:44 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:47:41 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ class File {
 		// getters
 		std::string getName();
 		std::string getRoot();
-		std::string getAbsolutePath();
+		std::string getAbsolutePath() const;
 		std::string getExtension();
 		
 };

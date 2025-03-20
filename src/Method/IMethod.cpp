@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 22:53:40 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:12:14 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,8 @@ IMethod::~IMethod()
 {
 }
 
-std::string IMethod::getFinalPath()
+std::string IMethod::getFinalPath(std::string &path)
 {
-    std::string path;
-
-	path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
-	path = urlDecode(path);
 	int routesSize = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
     int i = 0;
     while (i < routesSize)
@@ -39,7 +35,26 @@ std::string IMethod::getFinalPath()
     return path;
 }
 
-std::string IMethod::urlDecode(const std::string& str)
+std::string IMethod::getPageError(int error)
+{
+    std::map<int, File> errorFiles = Data::getInstance()->getHttp().getErrorFiles();
+    std::map<int, File>::const_iterator it = errorFiles.find(error);
+    std::stringstream buffer;
+    if (it != errorFiles.end())
+    {
+        std::string path = it->second.getAbsolutePath();
+        std::ifstream file(path.c_str());
+        buffer << file.rdbuf();
+        std::cout << "File Path: " << path << std::endl;
+    }
+    else
+    {
+        std::cerr << "Error file not found!" << std::endl;
+    }
+    return buffer.str();
+}
+
+std::string IMethod::urlDecode(const std::string &str)
 {
     std::string decoded;
     for (size_t i = 0; i < str.length(); ++i)

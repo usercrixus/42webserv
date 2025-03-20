@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 22:51:39 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:48:46 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ MethodGet::~MethodGet()
 void MethodGet::handle()
 {
 	std::string path;
-	
-	path = getFinalPath();
+
+	path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	path = urlDecode(path);
+	path = getFinalPath(path);
 	if (path.compare(0, 4, "/cgi") == 0)
 	{
 		Cgi cgi(_request, path);
@@ -41,7 +43,7 @@ void MethodGet::handle()
 	{
 		std::ifstream file(path.c_str());
 		if (!file) {
-			_response.setBody("404 Not Found");
+			_response.setBody(getPageError(404));
 			_response.setHeader(404);
 		}
 		else

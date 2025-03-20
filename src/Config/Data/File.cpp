@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   File.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:38:56 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/17 22:19:36 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:47:48 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ std::string File::getRoot() {
 	return _root;
 }
 
-std::string File::getAbsolutePath() {
+std::string File::getAbsolutePath() const {
 	return _absolutePath;
 }
 
