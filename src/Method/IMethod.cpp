@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IMethod.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 00:12:14 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:49:46 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ std::string IMethod::getPageError(int error)
     std::stringstream buffer;
     if (it != errorFiles.end())
     {
-        std::string path = it->second.getAbsolutePath();
+        std::string path = it->second.getRelativePath();
         std::ifstream file(path.c_str());
         buffer << file.rdbuf();
         std::cout << "File Path: " << path << std::endl;

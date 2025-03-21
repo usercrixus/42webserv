@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   File.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:38:56 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/20 23:47:48 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:04:00 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 File::File() {}
 
-File::File(std::string absolutePath) : _absolutePath(absolutePath) {
+File::File(std::string relativePath) : _relativePath(relativePath) {
 	this->buildName();
-	this->buildRoot();
+	this->buildRelativePath();
 	this->buildExtension();
 }
 
 File::File(std::string name, std::string root) : _name(name), _root(root) {
-	this->buildAbsolutePath();
+	this->buildRelativePath();
 	this->buildExtension();
 }
 
@@ -36,12 +36,12 @@ void printVector(std::vector<std::string> v) {
 }
 
 //methods
-void File::buildAbsolutePath () {
-	if (this->getRoot() == "/") {
-		_absolutePath = "/" + this->getName();
+void File::buildRelativePath () {
+	if (this->getRoot() == "") {
+		_relativePath = this->getName();
 	}
 	else {
-		_absolutePath = this->getRoot() + "/" + this->getName();
+		_relativePath = this->getRoot() + "/" + this->getName();
 	}
 }
 
@@ -93,8 +93,8 @@ std::string File::getRoot() {
 	return _root;
 }
 
-std::string File::getAbsolutePath() const {
-	return _absolutePath;
+std::string File::getRelativePath() const {
+	return _relativePath;
 }
 
 std::string File::getExtension() {

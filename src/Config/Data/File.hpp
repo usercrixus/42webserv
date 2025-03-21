@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   File.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:39:16 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/20 23:47:41 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:04:50 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ class File {
 	private:
 		std::string _name;
 		std::string _root;
-		std::string _absolutePath;
+		std::string _relativePath;
 		std::string _extension;
 		
 	public:
 		File();
-		File(std::string absolutePath);
+		File(std::string relativePath);
 		File(std::string name, std::string root);
 		~File();
 
 		// methods
-		void buildAbsolutePath();
+		void buildRelativePath();
 		void buildExtension();
 		void buildName();
 		void buildRoot();
@@ -48,7 +48,7 @@ class File {
 		// getters
 		std::string getName();
 		std::string getRoot();
-		std::string getAbsolutePath() const;
+		std::string getRelativePath() const;
 		std::string getExtension();
 		
 };

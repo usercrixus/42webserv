@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/19 21:18:36 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:05:08 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 			// }
 			if (content[0] == "error_page") {
 				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]));
+					File file((content[content.size() - 1]), "");
 					errorFiles[atoi(content[i].c_str())] = file;
 				}
 			}
@@ -219,7 +219,7 @@ Server	parseServer(std::vector<std::string> key, std::ifstream &file) {
 			}
 			if (content[0] == "error_page") {
 				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]));
+					File file((content[content.size() - 1]), "");
 					errorFiles[atoi(content[i].c_str())] = file;
 				}
 			}
@@ -321,7 +321,7 @@ Http	parseHttp(std::vector<std::string> key, std::ifstream &file) {
 			}
 			if (content[0] == "error_page") {
 				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]).substr(1), "/");
+					File file((content[content.size() - 1]), "");
 					errorFiles[atoi(content[i].c_str())] = file;
 				}
 			}
@@ -361,7 +361,7 @@ void printData(Data d) {
 			File f = it->second;
 			std::cout << "Error : " << it->first << std::endl;
 			std::cout << "File : _name : " << f.getName() << std::endl;
-			std::cout << "File : _absolutePath : " << f.getAbsolutePath() << std::endl;
+			std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
 			std::cout << "File : _root : " << f.getRoot() << std::endl;
 			std::cout << "File : _extension : " << f.getExtension() << std::endl;
 			std::cout << std::endl;
@@ -381,7 +381,7 @@ void printData(Data d) {
 		for (int j = 0; j < static_cast<int>(s.getIndex().size()); j++) {
 			File f = s.getIndex()[j];
 			std::cout << "Server : File : _name : " << f.getName() << std::endl;
-			std::cout << "Server : File : _absolutePath : " << f.getAbsolutePath() << std::endl;
+			std::cout << "Server : File : _relativePath : " << f.getRelativePath() << std::endl;
 			std::cout << "Server : File : _root : " << f.getRoot() << std::endl;
 			std::cout << "Server : File : _extension : " << f.getExtension() << std::endl;
 			std::cout << std::endl;
@@ -397,7 +397,7 @@ void printData(Data d) {
 				File f = it->second;
 				std::cout << "Error : " << it->first << std::endl;
 				std::cout << "File : _name : " << f.getName() << std::endl;
-				std::cout << "File : _absolutePath : " << f.getAbsolutePath() << std::endl;
+				std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
 				std::cout << "File : _root : " << f.getRoot() << std::endl;
 				std::cout << "File : _extension : " << f.getExtension() << std::endl;
 				std::cout << std::endl;
