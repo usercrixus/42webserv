@@ -21,14 +21,15 @@ void Cgi::getQueryStringFromCookies(std::map<std::string, std::string>& cookies,
     {
         std::map<std::string, std::string>::iterator itRequest = cookies.find(itURL->first);
         if (itRequest != cookies.end())
-        {
+		{ //A GERER POUR EVITER LE DOUBLON !!!!
             itRequest->second = itURL->second;
-        }
-        if (!firstCookie)
-            QUERY_STRING.append("&");
-        QUERY_STRING.append(itURL->first);
-        QUERY_STRING.append("=");
-        QUERY_STRING.append(itURL->second);
+			if (!firstCookie)
+            	QUERY_STRING.append("&");
+			QUERY_STRING.append(itURL->first);
+			QUERY_STRING.append("=");
+			QUERY_STRING.append(itURL->second);
+		}
+
         firstCookie = false;
     }
     if (QUERY_STRING.empty())
