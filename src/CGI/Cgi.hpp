@@ -25,6 +25,7 @@ class Cgi
 		std::string getQueryString(std::string &path);
 		std::string getScriptFilename(const std::string& path);
 		std::string getCgiPath(Request& request);
+		void getQueryStringFromCookies(std::map<std::string, std::string>&, std::string&);
 		void setCookies(std::string);
 	public :
 		Cgi(Request& request, std::string& path);

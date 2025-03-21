@@ -13,6 +13,39 @@ std::vector<std::string> my_split(const std::string& str, char delimiter)
     return tokens;
 }
 
+void Cgi::getQueryStringFromCookies(std::map<std::string, std::string>& cookies, std::string& QUERY_STRING)
+{
+    bool firstCookie = true;
+
+    for (std::map<std::string, std::string>::iterator itURL = _cookies.begin(); itURL != _cookies.end(); ++itURL)
+    {
+        std::map<std::string, std::string>::iterator itRequest = cookies.find(itURL->first);
+        if (itRequest != cookies.end())
+        {
+            itRequest->second = itURL->second;
+        }
+        if (!firstCookie)
+            QUERY_STRING.append("&");
+        QUERY_STRING.append(itURL->first);
+        QUERY_STRING.append("=");
+        QUERY_STRING.append(itURL->second);
+        firstCookie = false;
+    }
+    if (QUERY_STRING.empty())
+    {
+        for (std::map<std::string, std::string>::iterator it = cookies.begin(); it != cookies.end(); ++it)
+        {
+            if (!firstCookie)
+                QUERY_STRING.append("&");
+            QUERY_STRING.append(it->first);
+            QUERY_STRING.append("=");
+            QUERY_STRING.append(it->second);
+            firstCookie = false;
+        }
+    }
+}
+
+
 std::map<std::string, std::string> Cgi::getCookies(void)
 {
 	return _cookies;
@@ -196,8 +229,11 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
     std::string QUERY_STRING = getQueryString(path);
 	std::string CGI_PATH = getCgiPath(request);
     std::string REDIRECT_STATUS = "200";
+	std::map<std::string, std::string> requestCookies = request.getCookies();
 
 	setCookies(QUERY_STRING);
+	if (requestCookies.size() != 0)
+		getQueryStringFromCookies(requestCookies, QUERY_STRING);
     if (request.getMethod() != "GET")
 	{
         _status = 405;
@@ -277,7 +313,7 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
 	}
 }
 
-Cgi::Cgi(Request& request, std::string& path)
+Cgi::Cgi(Request& request, std::string& path) : _cookies()
 {
 	if (request.getMethod() == "GET")
 		HandleCgiGET(request, path);
