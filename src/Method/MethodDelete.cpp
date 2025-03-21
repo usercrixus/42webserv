@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:05 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 23:24:50 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:45:19 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void MethodDelete::handle()
 {
     std::string path;
 
-	path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
-	path = urlDecode(path);
-	path = getFinalPath(path);
+	path = getFinalPath();
     if (std::remove(path.c_str()) != 0)
     {
         _response.setBody("404 Not Found");

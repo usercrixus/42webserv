@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:02 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 23:40:24 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:44:48 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class IMethod {
 
         std::string getPageError(int error);
         std::string urlDecode(const std::string &str);
-        std::string getFinalPath(std::string &path);
+        std::string getFinalPath();
 		virtual void handle() = 0;
 };
 

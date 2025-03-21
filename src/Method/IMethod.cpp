@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 15:39:21 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:44:56 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,17 @@ IMethod::~IMethod()
 {
 }
 
-std::string IMethod::getFinalPath(std::string &path)
+std::string IMethod::getFinalPath()
 {
-	int routesSize = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+	std::string path;
+
+	if (_request.getPath().compare("/") == 0)
+		path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getIndex()[0].getRelativePath();
+	else
+		path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	path = urlDecode(path);
+
+    int routesSize = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
     int i = 0;
     while (i < routesSize)
     {

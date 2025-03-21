@@ -56,7 +56,6 @@ std::map<std::string, std::string> Request::getCookies() const
     return cookies;
 }
 
-
 int Request::getServerId() const
 {
     return _serverId;
