@@ -2,7 +2,9 @@
 # define CGI_HPP
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <vector>
+#include <map>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
@@ -14,11 +16,20 @@
 class Cgi
 {
 	private :
+		//Atributes
 		int	_status;
 		std::string _body;
+		std::map<std::string, std::string> _cookies;
+		//Privates fonctions
+		std::string getPathInfo(std::string &path, std::string &root);
+		std::string getQueryString(std::string &path);
+		std::string getScriptFilename(const std::string& path);
+		std::string getCgiPath(Request& request);
+		void setCookies(std::string);
 	public :
 		Cgi(Request& request, std::string& path);
 		~Cgi();
+		std::map<std::string, std::string> getCookies(void);
 		void HandleCgiGET(Request& request, std::string& path);
 		void HandleCgiPOST(Request& request, std::string& path);
 		int	getStatus();

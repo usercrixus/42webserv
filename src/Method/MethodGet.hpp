@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaetan <gaetan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:50 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 22:36:51 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:30:00 by gaetan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "IMethod.hpp"
 #include "../Request/Request.hpp"
+#include <map>
 
 #include <iostream>
 

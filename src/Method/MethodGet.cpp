@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaetan <gaetan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 23:48:46 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:41:17 by gaetan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void MethodGet::handle()
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
 		_response.setHeader(cgi.getStatus());
+		std::map<std::string, std::string> cookies;
+		cookies = cgi.getCookies();	
 	}
 	else
 	{

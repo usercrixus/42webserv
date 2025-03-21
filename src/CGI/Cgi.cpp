@@ -1,6 +1,45 @@
 #include "Cgi.hpp"
 
-std::string getPathInfo(std::string &path, std::string &root)
+
+std::vector<std::string> my_split(const std::string& str, char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::stringstream ss(str);
+    std::string token;
+
+    while (std::getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+std::map<std::string, std::string> Cgi::getCookies(void)
+{
+	return _cookies;
+}
+
+void	Cgi::setCookies(std::string query)
+{
+	if (query.empty())
+		return ;
+	std::vector<std::string> args;
+	std::vector<std::string> keyAndValue;
+	std::string	key = "";
+	std::string value = "";
+
+	args = my_split(query, '&');
+	for (size_t i = 0; i < args.size(); i++)
+	{
+		keyAndValue = my_split(args[i], '=');
+        if (keyAndValue.size() == 2)
+            _cookies[keyAndValue[0]] = keyAndValue[1];
+        else
+            std::cerr << "Erreur de format dans la paire clé-valeur : " << args[i] << std::endl;
+	}
+}
+
+
+std::string Cgi::getPathInfo(std::string &path, std::string &root)
 {
     size_t queryPos = path.find('?');
     std::string relativePath;
@@ -11,7 +50,7 @@ std::string getPathInfo(std::string &path, std::string &root)
     return relativePath;
 }
 
-std::string getQueryString(std::string &path)
+std::string Cgi::getQueryString(std::string &path)
 {    
     size_t queryPos = path.find('?');
 
@@ -21,7 +60,7 @@ std::string getQueryString(std::string &path)
         return "";
 }
 
-std::string getScriptFilename(const std::string& path)
+std::string Cgi::getScriptFilename(const std::string& path)
 {
     std::vector<std::string> cgiExtensions;
     cgiExtensions.push_back(".cgi");
@@ -51,7 +90,7 @@ std::string getScriptFilename(const std::string& path)
     return "";
 }
 
-std::string getCgiPath(Request& request)
+std::string Cgi::getCgiPath(Request& request)
 {
     std::vector<Route>::size_type nbrRoutes = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoutes().size();
     for (size_t repair = 0; repair < nbrRoutes; repair++)
@@ -73,6 +112,7 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
     // std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
     std::string REDIRECT_STATUS = "200";
 
+	setCookies(QUERY_STRING);
     if (request.getMethod() != "POST")
 	{
         _status = 405;
@@ -157,6 +197,7 @@ void	Cgi::HandleCgiGET(Request& request, std::string& path)
 	std::string CGI_PATH = getCgiPath(request);
     std::string REDIRECT_STATUS = "200";
 
+	setCookies(QUERY_STRING);
     if (request.getMethod() != "GET")
 	{
         _status = 405;
