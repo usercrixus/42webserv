@@ -6,6 +6,7 @@
 #include <iostream>
 #include <ctime>
 #include <iomanip>
+#include <map>
 
 #include "../Response/Response.hpp"
 
@@ -19,11 +20,12 @@ private:
     void setServerName();
     void setConnection();
     void setContentLen();
+    void setCookies(std::map<std::string, std::string> cookies);
 
 public:
     Response();
 
-    void setHeader(int statusCode);
+    void setHeader(int statusCode, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
     void setBody(const std::string& body);
 
     std::string toString() const;

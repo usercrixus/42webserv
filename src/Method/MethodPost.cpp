@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 23:32:09 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:53:40 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void MethodPost::handle()
 	{
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
-		_response.setHeader(cgi.getStatus());
+		_response.setHeader(cgi.getStatus(), cgi.getCookies());
     }
     else
     {

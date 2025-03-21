@@ -51,16 +51,27 @@ void Response::setContentLen()
     _headers += oss.str();
 }
 
-void Response::setHeader(int status)
+void Response::setCookies(std::map<std::string, std::string> cookies)
 {
-    setStatus(status);
+    for (std::map<std::string, std::string>::const_iterator it = cookies.begin(); it != cookies.end(); ++it)
+    {
+        _headers += "Set-Cookie: " + it->first + "=" + it->second + "; Path=/\r\n";
+    }
+}
+
+
+void Response::setHeader(int statusCode, const std::map<std::string, std::string> &cookies)
+{
+    setStatus(statusCode);
     setCurrentDate();
     setServerName();
     setContentLen();
     setConnection();
+    setCookies(cookies);
 }
 
-void Response::setBody(const std::string& body)
+
+void Response::setBody(const std::string &body)
 {
     _body = body;
 }

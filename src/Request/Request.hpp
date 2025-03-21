@@ -23,7 +23,8 @@ class Request {
 
 		void parse(const std::string& rawRequest);
 
-		int getServerId() const;
+        std::map<std::string, std::string> getCookies() const;
+        int getServerId() const;
 		std::string getMethod() const;
 		std::string getPath() const;
 		std::string getHeader(const std::string& key) const;

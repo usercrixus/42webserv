@@ -34,6 +34,29 @@ void Request::parse(const std::string& rawRequest)
     _body = bodyStream.str();  // Copy the entire buffer into `_body`
 }
 
+std::map<std::string, std::string> Request::getCookies() const
+{
+    std::map<std::string, std::string> cookies;
+
+    std::string cookieHeader = getHeader("Cookie");
+    if (cookieHeader.empty())
+        return cookies;
+
+    std::istringstream cookieStream(cookieHeader);
+    std::string cookiePair;
+    while (std::getline(cookieStream, cookiePair, ';')) {
+        size_t equalsPos = cookiePair.find('=');
+        if (equalsPos != std::string::npos) {
+            std::string key = cookiePair.substr(0, equalsPos);
+            std::string value = cookiePair.substr(equalsPos + 1);
+            key.erase(0, key.find_first_not_of(" "));
+            cookies[key] = value;
+        }
+    }
+    return cookies;
+}
+
+
 int Request::getServerId() const
 {
     return _serverId;
