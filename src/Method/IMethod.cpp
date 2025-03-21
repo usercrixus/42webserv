@@ -6,11 +6,12 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 18:44:56 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:54:27 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "IMethod.hpp"
+#include "MethodGet.hpp"
 
 IMethod::IMethod(Request &request):
 _request(request)
@@ -19,6 +20,46 @@ _request(request)
 
 IMethod::~IMethod()
 {
+}
+
+bool IMethod::isMethodAllowed(std::string method)
+{
+	int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+	for (int i = 0; i < size; i++)
+	{
+		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
+		if (location.compare(0, location.length(), _request.getPath()) == 0)
+		{
+			std::vector<std::string> allowedMethod = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getMethods().getAllowedMethods();
+
+			if (std::find(allowedMethod.begin(), allowedMethod.end(), method) != allowedMethod.end())
+				return true;
+			else
+				return false;
+		}
+	}
+    return true;
+}
+
+bool IMethod::isListingAllowed()
+{
+	int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+	for (int i = 0; i < size; i++)
+	{
+		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
+		if (location.compare(0, location.length(), _request.getPath()) == 0)
+			return (Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex());
+	}
+    return true;
+}
+
+bool IMethod::isDirectory(const std::string &path)
+{
+    struct stat statbuf;
+    if (stat(path.c_str(), &statbuf) != 0) {
+        return false;
+    }
+    return S_ISDIR(statbuf.st_mode);
 }
 
 std::string IMethod::getFinalPath()

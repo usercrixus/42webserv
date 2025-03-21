@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 18:51:09 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:00:38 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,50 @@ IMethod(request)
 MethodGet::~MethodGet()
 {
 }
+std::string MethodGet::generateDirectoryListing(const std::string& path)
+{
+    DIR* dir;
+    struct dirent* entry;
+    std::stringstream listing;
+
+    listing << "<html><head><title>Directory Listing</title></head><body>";
+    listing << "<h1>Index of " << path << "</h1>";
+    listing << "<ul>";
+
+    if ((dir = opendir(path.c_str())) != NULL)
+    {
+        while ((entry = readdir(dir)) != NULL)
+        {
+            std::string name = entry->d_name;
+            listing << "<li><a href=\"" << _request.getPath() + "/" + name << "\">" << name << "</a></li>";
+        }
+        closedir(dir);
+    }
+    else
+    {
+        listing << "<p>Error accessing directory content.</p>";
+    }
+
+    listing << "</ul></body></html>";
+    return listing.str();
+}
 
 void MethodGet::handle()
 {
 	std::string path;
 
 	path = getFinalPath();
-	if (path.compare(0, 4, "/cgi") == 0)
+	if (!isMethodAllowed("GET"))
+	{
+		_response.setBody(getPageError(405));
+		_response.setHeader(405);
+	}
+	else if (isDirectory(path) && isListingAllowed())
+	{
+		_response.setBody(generateDirectoryListing(path));
+		_response.setHeader(200);
+	}
+	else if (path.compare(0, 4, "/cgi") == 0)
 	{
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());

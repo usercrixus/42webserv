@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 18:45:11 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:39:00 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ void MethodPost::handle()
 	std::string path;
 	
 	path = getFinalPath();
-	if (path.compare(0, 4, "/cgi") == 0) //a modifier
+	if (!isMethodAllowed("POST"))
+	{
+		_response.setBody(getPageError(405));
+		_response.setHeader(405);
+	}
+    else if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
