@@ -79,7 +79,7 @@ void Response::setLocation(Route route) {
 
 void Response::setHeader(int statusCode, std::string path, Route route, const std::map<std::string, std::string> &cookies)
 {
-    setHeader(statusCode, path);
+    setHeader(statusCode, path, cookies);
 	if (isRedirection(statusCode))
     	setLocation(route); // recuperer la route
 	std::cout << _headers << std::endl;
