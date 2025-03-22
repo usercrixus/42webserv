@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 17:12:56 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:32:05 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void MethodGet::handle()
 		{
 			Route& route = getRoute();
 			if (route.getRedirectionCode() != -1)
-				return handleRedirection(route);
+				handleRedirection(route);
+			else
+				throw std::runtime_error("No redirection found");
 		}
 		catch (const std::exception& e)
 		{
