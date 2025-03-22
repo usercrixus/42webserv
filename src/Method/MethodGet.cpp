@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 12:36:20 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:50:05 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,39 @@ std::string MethodGet::generateDirectoryListing(const std::string& path)
 
 void MethodGet::handle()
 {
-	std::string path;
+	std::string path = getFinalPath();
 
-	path = getFinalPath();
 	if (!isMethodAllowed("GET"))
+		return handleMethodNotAllowed();
+
+	try
 	{
-		_response.setBody(getPageError(405));
-		_response.setHeader(405, _request.getPath());
+		Route& route = getRoute();
+		if (route.getRedirectionCode() != -1)
+			return handleRedirection(route);
 	}
-	else if (isDirectory(path) && isListingAllowed())
+	catch (const std::exception& e)
+	{
+		handleContentRequest(path);
+	}
+}
+
+void MethodGet::handleMethodNotAllowed()
+{
+	_response.setBody(getPageError(405));
+	_response.setHeader(405, _request.getPath());
+	sendResponse();
+}
+
+void MethodGet::handleRedirection(Route& route)
+{
+	_response.setHeader(route.getRedirectionCode(), _request.getPath(), route);
+	sendResponse();
+}
+
+void MethodGet::handleContentRequest(std::string& path)
+{
+	if (isDirectory(path) && isListingAllowed())
 	{
 		_response.setBody(generateDirectoryListing(path));
 		_response.setHeader(200, _request.getPath());
@@ -76,18 +100,30 @@ void MethodGet::handle()
 	}
 	else
 	{
-		std::ifstream file(path.c_str());
-		if (!file) {
-			_response.setBody(getPageError(404));
-			_response.setHeader(404, _request.getPath());
-		}
-		else
-		{
-			std::stringstream buffer;
-			buffer << file.rdbuf();
-			_response.setBody(buffer.str());
-			_response.setHeader(200, _request.getPath());
-		}
+		handleFileRequest(path);
 	}
+	sendResponse();
+}
+
+void MethodGet::handleFileRequest(std::string& path)
+{
+	std::ifstream file(path.c_str());
+	if (!file)
+	{
+		_response.setBody(getPageError(404));
+		_response.setHeader(404, _request.getPath());
+	}
+	else
+	{
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+		_response.setBody(buffer.str());
+		_response.setHeader(200, _request.getPath());
+	}
+}
+
+void MethodGet::sendResponse()
+{
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);
 }
+

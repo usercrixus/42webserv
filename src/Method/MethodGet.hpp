@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:50 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 23:56:21 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:50:00 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ class MethodGet : public IMethod {
         std::string generateDirectoryListing(const std::string &path);
 
         void handle();
+        void handleMethodNotAllowed();
+        void handleRedirection(Route &route);
+        void handleContentRequest(std::string &path);
+        void handleFileRequest(std::string &path);
+        void sendResponse();
 };
 
 #endif // METHODGET_HPP

@@ -91,6 +91,18 @@ void Response::setHeader(int statusCode, std::string path, Route route, const st
 	std::cout << _headers << std::endl;
 }
 
+void Response::setHeader(int statusCode, std::string path, const std::map<std::string, std::string> &cookies)
+{
+    setStatus(statusCode);
+    setCurrentDate();
+    setServerName();
+	setMime(path);
+    setContentLen();
+    setConnection();
+    setCookies(cookies);
+	std::cout << _headers << std::endl;
+}
+
 
 void Response::setBody(const std::string &body)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IMethod.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 14:54:04 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:42:00 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,18 @@ std::string IMethod::getFinalPath()
         i++;
     }
     return path;
+}
+
+Route &IMethod::getRoute()
+{
+	int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+	for (int i = 0; i < size; i++)
+	{
+		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
+		if (location.compare(0, location.length(), _request.getPath()) == 0)
+            return Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i];
+    }
+    throw std::runtime_error("no route match");
 }
 
 std::string IMethod::getPageError(int error)

@@ -29,7 +29,8 @@ public:
     Response();
 
     void setHeader(int statusCode, std::string path, Route route, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
-    void setBody(const std::string& body);
+    void setHeader(int statusCode, std::string path, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
+    void setBody(const std::string &body);
 
     std::string toString() const;
 };
