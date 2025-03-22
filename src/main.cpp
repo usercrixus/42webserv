@@ -31,5 +31,4 @@ int main() {
 }
 
 // Check aussi comment faire les redirections
-// Rajouter le MIME dans le header et faire pleins de tests (avec les curl en exemple etc, bien comprendre comment tout marche)
-// Pour le mime, juste creer un dictionnaire, dict[extension] = MIME;
+// Faire pleins de tests (avec les curl en exemple etc, bien comprendre comment tout marche)

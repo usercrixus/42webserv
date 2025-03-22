@@ -6,6 +6,11 @@ void Response::setStatus(int statusCode) {
     switch (statusCode) {
         case 200: _headers += "HTTP/1.1 200 OK\r\n"; break;
         case 204: _headers += "HTTP/1.1 204 No Content\r\n"; break; 
+        case 301: _headers += "HTTP/1.1 301 Moved Permanently\r\n"; break;
+        case 302: _headers += "HTTP/1.1 302 Found\r\n"; break;
+        case 303: _headers += "HTTP/1.1 303 See Other\r\n"; break;
+        case 307: _headers += "HTTP/1.1 307 Temporary Redirect\r\n"; break;
+        case 308: _headers += "HTTP/1.1 308 Permanent Redirect\r\n"; break;
         case 404: _headers += "HTTP/1.1 404 Not Found\r\n"; break;
         case 500: _headers += "HTTP/1.1 500 Internal Server Error\r\n"; break;
         default: _headers += "HTTP/1.1 500 Internal Server Error\r\n";
@@ -64,7 +69,15 @@ void Response::setMime(std::string path) {
 	_headers += "Content-Type: " + mime + "\r\n";
 }
 
-void Response::setHeader(int statusCode,std::string path, const std::map<std::string, std::string> &cookies)
+int isRedirection(int statusCode) {
+	return (statusCode == 301 || statusCode == 302 || statusCode == 303 || statusCode == 307 || statusCode == 308);
+}
+
+void Response::setLocation(Route route) {
+	_headers += "Location: " + route.getRedirection() + "\r\n";
+}
+
+void Response::setHeader(int statusCode, std::string path, Route route, const std::map<std::string, std::string> &cookies)
 {
     setStatus(statusCode);
     setCurrentDate();
@@ -73,6 +86,8 @@ void Response::setHeader(int statusCode,std::string path, const std::map<std::st
     setContentLen();
     setConnection();
     setCookies(cookies);
+	if (isRedirection(statusCode))
+    	setLocation(route); // recuperer la route
 	std::cout << _headers << std::endl;
 }
 

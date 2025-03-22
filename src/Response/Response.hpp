@@ -9,6 +9,7 @@
 #include <map>
 
 #include "../Response/Response.hpp"
+#include "../Config/Data/Route.hpp"
 
 class Response {
 private:
@@ -22,11 +23,12 @@ private:
     void setConnection();
     void setContentLen();
     void setCookies(std::map<std::string, std::string> cookies);
+    void setLocation(Route route);
 
 public:
     Response();
 
-    void setHeader(int statusCode, std::string path, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
+    void setHeader(int statusCode, std::string path, Route route, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
     void setBody(const std::string& body);
 
     std::string toString() const;
