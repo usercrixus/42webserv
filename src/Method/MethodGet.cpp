@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 17:32:05 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:43:55 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,14 @@ void MethodGet::handle()
 	std::string path = getFinalPath();
 
 	if (!isMethodAllowed("GET"))
-	{
 		handleMethodNotAllowed();
-	}
 	else
 	{
-		try
-		{
-			Route& route = getRoute();
-			if (route.getRedirectionCode() != -1)
-				handleRedirection(route);
-			else
-				throw std::runtime_error("No redirection found");
-		}
-		catch (const std::exception& e)
-		{
-			handleContentRequest(path);
-		}
+		Route *route = getRoute();
+		if (route && route->getRedirectionCode() != -1)
+			handleRedirection(*route);
+		else
+		handleContentRequest(path);
 	}
 }
 
