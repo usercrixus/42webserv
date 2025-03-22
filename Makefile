@@ -7,6 +7,7 @@ OBJ = \
 		src/Socket/WebServSocketRunner.o \
 		src/Request/Request.o \
 		src/Response/Response.o \
+		src/Response/mimes.o \
 		src/Method/MethodPost.o \
 		src/Method/MethodGet.o \
 		src/Method/MethodDelete.o \

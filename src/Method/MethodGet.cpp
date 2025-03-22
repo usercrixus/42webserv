@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 00:00:38 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:36:20 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,32 @@ void MethodGet::handle()
 	if (!isMethodAllowed("GET"))
 	{
 		_response.setBody(getPageError(405));
-		_response.setHeader(405);
+		_response.setHeader(405, _request.getPath());
 	}
 	else if (isDirectory(path) && isListingAllowed())
 	{
 		_response.setBody(generateDirectoryListing(path));
-		_response.setHeader(200);
+		_response.setHeader(200, _request.getPath());
 	}
 	else if (path.compare(0, 4, "/cgi") == 0)
 	{
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
-		_response.setHeader(cgi.getStatus(), cgi.getCookies());
+		_response.setHeader(cgi.getStatus(), _request.getPath(), cgi.getCookies());
 	}
 	else
 	{
 		std::ifstream file(path.c_str());
 		if (!file) {
 			_response.setBody(getPageError(404));
-			_response.setHeader(404);
+			_response.setHeader(404, _request.getPath());
 		}
 		else
 		{
 			std::stringstream buffer;
 			buffer << file.rdbuf();
 			_response.setBody(buffer.str());
-			_response.setHeader(200);
+			_response.setHeader(200, _request.getPath());
 		}
 	}
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);

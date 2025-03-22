@@ -59,15 +59,21 @@ void Response::setCookies(std::map<std::string, std::string> cookies)
     }
 }
 
+void Response::setMime(std::string path) {
+	std::string mime = getMime(path);
+	_headers += "Content-Type: " + mime + "\r\n";
+}
 
-void Response::setHeader(int statusCode, const std::map<std::string, std::string> &cookies)
+void Response::setHeader(int statusCode,std::string path, const std::map<std::string, std::string> &cookies)
 {
     setStatus(statusCode);
     setCurrentDate();
     setServerName();
+	setMime(path);
     setContentLen();
     setConnection();
     setCookies(cookies);
+	std::cout << _headers << std::endl;
 }
 
 

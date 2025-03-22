@@ -1,6 +1,7 @@
 #include "Socket/WebservSocket.hpp"
 #include "Config/Data/Data.hpp"
 #include "Socket/WebServSocketRunner.hpp"
+#include "Response/Response.hpp"
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -28,3 +29,7 @@ int main() {
     }
     return 0;
 }
+
+// Check aussi comment faire les redirections
+// Rajouter le MIME dans le header et faire pleins de tests (avec les curl en exemple etc, bien comprendre comment tout marche)
+// Pour le mime, juste creer un dictionnaire, dict[extension] = MIME;

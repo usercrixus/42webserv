@@ -18,6 +18,7 @@ private:
     void setStatus(int statusCode);
     void setCurrentDate();
     void setServerName();
+    void setMime(std::string path);
     void setConnection();
     void setContentLen();
     void setCookies(std::map<std::string, std::string> cookies);
@@ -25,10 +26,12 @@ private:
 public:
     Response();
 
-    void setHeader(int statusCode, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
+    void setHeader(int statusCode, std::string path, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
     void setBody(const std::string& body);
 
     std::string toString() const;
 };
+
+std::string getMime(std::string fileName);
 
 #endif // RESPONSE_HPP

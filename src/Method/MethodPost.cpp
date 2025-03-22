@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodPost.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/21 23:39:00 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:36:41 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void MethodPost::handle()
 	if (!isMethodAllowed("POST"))
 	{
 		_response.setBody(getPageError(405));
-		_response.setHeader(405);
+		_response.setHeader(405, _request.getPath());
 	}
     else if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
-		_response.setHeader(cgi.getStatus(), cgi.getCookies());
+		_response.setHeader(cgi.getStatus(), _request.getPath(), cgi.getCookies());
     }
     else
     {
@@ -62,12 +62,12 @@ void MethodPost::handle()
         {
             createFile(path);
             _response.setBody(std::string("201 Successfully Created"));
-            _response.setHeader(201);
+            _response.setHeader(201, _request.getPath());
         }
         catch(const std::exception& e)
         {
             _response.setBody(getPageError(500));
-            _response.setHeader(500);
+            _response.setHeader(500, _request.getPath());
         }
     }
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);
