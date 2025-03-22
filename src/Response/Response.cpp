@@ -73,16 +73,18 @@ int isRedirection(int statusCode) {
 	return (statusCode == 301 || statusCode == 302 || statusCode == 303 || statusCode == 307 || statusCode == 308);
 }
 
-void Response::setLocation(Route route) {
+void Response::setLocation(Route &route) {
 	_headers += "Location: " + route.getRedirection() + "\r\n";
 }
 
-void Response::setHeader(int statusCode, std::string path, Route route, const std::map<std::string, std::string> &cookies)
+void Response::setHeader(int statusCode, std::string path, Route &route, const std::map<std::string, std::string> &cookies)
 {
     setHeader(statusCode, path, cookies);
-	if (isRedirection(statusCode))
-    	setLocation(route); // recuperer la route
-	std::cout << _headers << std::endl;
+    if (isRedirection(statusCode))
+    {
+        setLocation(route);
+    }
+    std::cout << _headers << std::endl;
 }
 
 void Response::setHeader(int statusCode, std::string path, const std::map<std::string, std::string> &cookies)
