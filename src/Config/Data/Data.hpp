@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:10:32 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/23 19:40:14 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:18:20 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Data {
 	public :
 		static Data* getInstance();
 		static Data* getInstance(std::string path);
+		static void destroyInstance();
 
 		void	parseData(std::string configFile);
 		void	init();
