@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:02:45 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/23 19:56:25 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/23 23:38:40 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ Http::Http(std::map<std::string, std::vector<std::string> > data, std::vector<Se
 
 Http::~Http() {}
 
-Http Http::operator=(Http &other) {
-	this->_servers = other._servers;
-	this->_serverName = other._serverName;
-	this->_defaultServer = other._defaultServer;
-	this->_errorFiles = other._errorFiles;
-	this->_clientMaxBody = other._clientMaxBody;
-	return *this;
-}
+// Http Http::operator=(Http &other) {
+// 	this->_servers = other._servers;
+// 	this->_serverName = other._serverName;
+// 	this->_defaultServer = other._defaultServer;
+// 	this->_errorFiles = other._errorFiles;
+// 	this->_clientMaxBody = other._clientMaxBody;
+// 	return *this;
+// }
 
 void	Http::init(std::map<std::string, std::vector<std::string> > data, std::vector<Server> servers, std::map<int, File> errorFiles) {
 	if (servers.empty()) {
