@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 17:42:40 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:05:37 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ bool IMethod::isMethodAllowed(std::string method)
 
 bool IMethod::isListingAllowed()
 {
-	int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
+    std::cout << "here:" << _request.getPath() << std::endl;
+    int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
 	for (int i = 0; i < size; i++)
 	{
 		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
 		if (location.compare(0, location.length(), _request.getPath()) == 0)
-			return (Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex());
+        {
+            std::cout << "here" << Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex() << std::endl;
+            return (Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex());
+        }
 	}
-    return true;
+    return false;
 }
 
 bool IMethod::isDirectory(const std::string &path)

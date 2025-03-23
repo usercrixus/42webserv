@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodPost.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 14:56:56 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/23 23:55:29 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void MethodPost::handle()
 	if (!isMethodAllowed("POST"))
 	{
 		_response.setBody(getPageError(405));
-		_response.setHeader(405, _request.getPath());
+		_response.setHeader(405, "/errors/405.html");
 	}
     else if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
@@ -67,7 +67,7 @@ void MethodPost::handle()
         catch(const std::exception& e)
         {
             _response.setBody(getPageError(500));
-            _response.setHeader(500, _request.getPath());
+            _response.setHeader(500, "/errors/500.html");
         }
     }
 	send(_request.getClient(), _response.toString().c_str(), _response.toString().size(), 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodDelete.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:05 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 12:35:40 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/23 23:55:07 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void MethodDelete::handle()
 	if (!isMethodAllowed("DELETE"))
 	{
 		_response.setBody(getPageError(405));
-		_response.setHeader(405, _request.getPath());
+		_response.setHeader(405, "/errors/405.html");
 	}
     else if (std::remove(path.c_str()) != 0)
     {

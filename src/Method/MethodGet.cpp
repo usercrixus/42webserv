@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 17:43:55 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:06:57 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void MethodGet::handle()
 		if (route && route->getRedirectionCode() != -1)
 			handleRedirection(*route);
 		else
-		handleContentRequest(path);
+			handleContentRequest(path);
 	}
 }
 
 void MethodGet::handleMethodNotAllowed()
 {
 	_response.setBody(getPageError(405));
-	_response.setHeader(405, _request.getPath());
+	_response.setHeader(405, "/errors/405.html");
 	sendResponse();
 }
 
@@ -85,10 +85,19 @@ void MethodGet::handleRedirection(Route& route)
 
 void MethodGet::handleContentRequest(std::string& path)
 {
-	if (isDirectory(path) && isListingAllowed())
+	if (isDirectory(path))
 	{
-		_response.setBody(generateDirectoryListing(path));
-		_response.setHeader(200, _request.getPath());
+	    std::cout << "here:" << _request.getPath() << std::endl;
+		if (isListingAllowed())
+		{
+			_response.setBody(generateDirectoryListing(path));
+			_response.setHeader(200, _request.getPath());
+		}
+		else
+		{
+			_response.setBody(getPageError(403));
+			_response.setHeader(403, "/errors/403.html");
+		}
 	}
 	else if (path.compare(0, 4, "/cgi") == 0)
 	{
@@ -109,7 +118,7 @@ void MethodGet::handleFileRequest(std::string& path)
 	if (!file)
 	{
 		_response.setBody(getPageError(404));
-		_response.setHeader(404, _request.getPath());
+		_response.setHeader(404, "/errors/404.html");
 	}
 	else
 	{
