@@ -29,7 +29,7 @@ $(NAME): $(OBJ)
 	c++ $^ -o $@
 
 %.o: %.cpp
-	c++ -std=c++98 -Wall -Werror -Wextra -c $^ -o $@
+	c++ -std=c++98 -g3 -Wall -Werror -Wextra -c $^ -o $@
 
 clean:
 	rm -f $(OBJ)

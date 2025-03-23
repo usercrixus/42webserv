@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:08:04 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/20 23:59:16 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:58:25 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ Server::Server(std::map<std::string, std::vector<std::string> > data, std::vecto
 }
 
 Server::~Server() {};
+
+Server Server::operator=(Server &other) {
+	this->_routes = other._routes;
+	this->_serverNames = other._serverNames;
+	this->_listen = other._listen;
+	this->_clientMaxBodysize = other._clientMaxBodysize;
+	this->_root = other._root;
+	this->_index = other._index;
+	this->_errorFiles = other._errorFiles;
+	return *this;
+}
 
 void Server::init(std::map<std::string, std::vector<std::string> > data, std::vector<Route> routes, std::map<int, File> errorFiles) {
 	// Voir si oblige d'avoir au moins une route ? Si oui verif + throw

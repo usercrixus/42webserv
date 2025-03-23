@@ -96,6 +96,7 @@ void Response::setHeader(int statusCode, std::string path, const std::map<std::s
     setContentLen();
     setConnection();
     setCookies(cookies);
+	std::cout << _headers << std::endl;
 }
 
 

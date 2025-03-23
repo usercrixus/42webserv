@@ -4,11 +4,30 @@
 #include "Response/Response.hpp"
 #include <unistd.h>
 #include <sys/wait.h>
+#include <csignal>
 
-int main() {
+void exitClean (int signal) {
+	
+	std::cout << "\n\nBye!" << std::endl;
+	exit(signal);
+}
+
+
+int main(int argc, char **argv) {
+	signal(SIGINT, exitClean);
+	if (argc > 2) {
+		std::cout << "Usage: ./webserv [configuration file]" << std::endl;
+	}
+	Data* data;
     try
     {
-        WebservSocket servers[Data::getInstance()->getHttp().getServers().size()];
+		if (argc == 2) {
+			data = Data::getInstance(argv[1]);
+		}
+		else {
+			data = Data::getInstance();
+		}
+        WebservSocket servers[data->getHttp().getServers().size()];
         size_t i;
         
         i = 0;

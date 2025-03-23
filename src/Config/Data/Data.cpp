@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Data.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/18 00:22:45 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:40:17 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ Data* Data::instance = NULL;
 Data::Data()
 {
 	this->parseData(CONFIG_PATH);
+	//std::cout << "Data constructed!" << std::endl;
+	this->init();
+	printData(*this);
+}
+
+Data::Data(std::string path)
+{
+	this->parseData(path);
 	//std::cout << "Data constructed!" << std::endl;
 	this->init();
 	printData(*this);
@@ -104,6 +112,13 @@ Events Data::getEvents() {
 Data* Data::getInstance() {
     if (!instance) {
         instance = new Data();  // Lazy instantiation
+    }
+    return instance;
+}
+
+Data* Data::getInstance(std::string path) {
+    if (!instance) {
+        instance = new Data(path);  // Lazy instantiation
     }
     return instance;
 }
