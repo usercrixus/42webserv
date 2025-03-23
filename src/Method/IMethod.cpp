@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 00:05:37 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:16:33 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,12 @@ bool IMethod::isMethodAllowed(std::string method)
 
 bool IMethod::isListingAllowed()
 {
-    std::cout << "here:" << _request.getPath() << std::endl;
     int size = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
 	for (int i = 0; i < size; i++)
 	{
 		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
 		if (location.compare(0, location.length(), _request.getPath()) == 0)
-        {
-            std::cout << "here" << Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex() << std::endl;
             return (Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getAutoIndex());
-        }
 	}
     return false;
 }
@@ -98,6 +94,18 @@ Route *IMethod::getRoute()
             return &Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i];
     }
     return NULL;
+}
+
+std::string IMethod::getPathError(int error)
+{
+    std::map<int, File> errorFiles = Data::getInstance()->getHttp().getErrorFiles();
+    std::map<int, File>::const_iterator it = errorFiles.find(error);
+    std::stringstream buffer;
+    if (it != errorFiles.end())
+        return it->second.getRelativePath();
+    else
+        std::cerr << "Error file not found!" << std::endl;
+    return "";
 }
 
 std::string IMethod::getPageError(int error)
