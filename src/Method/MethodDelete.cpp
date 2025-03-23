@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:05 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/23 23:55:07 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:15:14 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void MethodDelete::handle()
 	if (!isMethodAllowed("DELETE"))
 	{
 		_response.setBody(getPageError(405));
-		_response.setHeader(405, "/errors/405.html");
+		_response.setHeader(405, getPathError(405));
 	}
     else if (std::remove(path.c_str()) != 0)
     {
         _response.setBody("404 Not Found");
-        _response.setHeader(404, _request.getPath());
+        _response.setHeader(404, getPathError(404));
     }
     else
     {

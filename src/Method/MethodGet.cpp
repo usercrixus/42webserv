@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 00:06:57 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:16:44 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void MethodGet::handle()
 void MethodGet::handleMethodNotAllowed()
 {
 	_response.setBody(getPageError(405));
-	_response.setHeader(405, "/errors/405.html");
+	_response.setHeader(405, getPathError(405));
 	sendResponse();
 }
 
@@ -87,7 +87,6 @@ void MethodGet::handleContentRequest(std::string& path)
 {
 	if (isDirectory(path))
 	{
-	    std::cout << "here:" << _request.getPath() << std::endl;
 		if (isListingAllowed())
 		{
 			_response.setBody(generateDirectoryListing(path));
@@ -96,7 +95,7 @@ void MethodGet::handleContentRequest(std::string& path)
 		else
 		{
 			_response.setBody(getPageError(403));
-			_response.setHeader(403, "/errors/403.html");
+			_response.setHeader(403, getPathError(403));
 		}
 	}
 	else if (path.compare(0, 4, "/cgi") == 0)
@@ -118,7 +117,7 @@ void MethodGet::handleFileRequest(std::string& path)
 	if (!file)
 	{
 		_response.setBody(getPageError(404));
-		_response.setHeader(404, "/errors/404.html");
+		_response.setHeader(404, getPathError(404));
 	}
 	else
 	{
