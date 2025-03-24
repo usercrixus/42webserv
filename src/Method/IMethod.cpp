@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 16:01:37 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:50:28 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ Route *IMethod::getRoute()
 	for (int i = 0; i < size; i++)
 	{
 		std::string location = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
-		if (location.compare(0, location.length(), _request.getPath()) == 0)
+		if (_request.getPath().compare(0, location.length(), location) == 0)
             return &(Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i]);
     }
     return NULL;

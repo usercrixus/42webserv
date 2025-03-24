@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 16:12:35 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:45:27 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void MethodGet::handleRedirection(Route& route)
 
 void MethodGet::handleContentRequest(std::string& path)
 {
-	std::cout << "HERE1" << getRoute()->getCgiPath() << std::endl;
 	if (isDirectory(path))
 	{
 		if (isListingAllowed())
