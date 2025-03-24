@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 20:57:26 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:26:55 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ std::string MethodGet::generateDirectoryListing(const std::string& path)
 void MethodGet::handle()
 {
 	std::string path = getFinalPath();
+	std::cout << "Final :" << path << std::endl;
 	if (!isMethodAllowed("GET"))
 		handleMethodNotAllowed();
 	else
