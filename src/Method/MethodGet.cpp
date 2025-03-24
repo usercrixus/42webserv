@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmorel <gmorel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 14:03:00 by gmorel           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:12:35 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void MethodGet::handleRedirection(Route& route)
 
 void MethodGet::handleContentRequest(std::string& path)
 {
+	std::cout << "HERE1" << getRoute()->getCgiPath() << std::endl;
 	if (isDirectory(path))
 	{
 		if (isListingAllowed())
@@ -99,8 +100,9 @@ void MethodGet::handleContentRequest(std::string& path)
 			_response.setHeader(403, getPathError(403));
 		}
 	}
-	else if (path.compare(0, 4, "/cgi") == 0)
+	else if (getRoute() && !getRoute()->getCgiPath().empty())
 	{
+		std::cout << "HERE WE ARE" << std::endl;
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
 		_response.setHeader(cgi.getStatus(), _request.getPath(), cgi.getCookies());
