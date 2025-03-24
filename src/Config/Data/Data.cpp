@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 15:52:45 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:59:16 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ void	Data::parseData(std::string configFile) {
 
 // getters
 
-unsigned int Data::getWorkerProcesses() {
+unsigned int &Data::getWorkerProcesses() {
 	return _workerProcesses;
 }
 
 Http &Data::getHttp() {
 	return _http;
 }
-Events Data::getEvents() {
+Events &Data::getEvents() {
 	return _events;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:38:10 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:07:32 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,14 +190,14 @@ const std::map<int, File>&				Route::getErrorFiles() {
 	return _errorFiles;
 }
 
-Methods							Route::getMethods() {
+Methods							&Route::getMethods() {
 	return _methods;
 }
 const std::vector<std::string>&		Route::getAcceptedExtensions() {
 	return _acceptedExtensions;
 }
 
-File							Route::getDefaultFile() {
+File							&Route::getDefaultFile() {
 	return _defaultFile;
 }
 
@@ -205,7 +205,7 @@ std::string						&Route::getLocation() {
 	return _location;
 }
 
-std::string						Route::getRoot() {
+std::string						&Route::getRoot() {
 	return _root;
 }
 
@@ -213,7 +213,7 @@ std::string						&Route::getRedirection() {
 	return _redirection;
 }
 
-std::string						Route::getCgiPath() {
+std::string						&Route::getCgiPath() {
 	return _cgi_path;
 }
 // bool							Route::getCgi() {
@@ -236,26 +236,26 @@ std::string						Route::getCgiPath() {
 // 	return _include;
 // }
 
-std::string						Route::getClientBodyTempPath() {
+std::string						&Route::getClientBodyTempPath() {
 	return _clientBodyTempPath;
 }
 
-int								Route::getRedirectionCode() {
+int								&Route::getRedirectionCode() {
 	return _redirectionCode;
 }
 
-bool							Route::getInternal() {
+bool							&Route::getInternal() {
 	return _internal;
 }
 
-bool							Route::getAutoIndex() {
+bool							&Route::getAutoIndex() {
 	return _autoIndex;
 }
 
-std::string						Route::getUploadMaxFilesize() {
+std::string						&Route::getUploadMaxFilesize() {
 	return _uploadMaxFilesize;
 }
 
-std::string						Route::getClientMaxBodysize() {
+std::string						&Route::getClientMaxBodysize() {
 	return _clientMaxBodysize;
 }

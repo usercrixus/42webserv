@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:45:34 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:38:17 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:04:55 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,24 @@ class Route {
 		// getters
 		const std::map<std::string, File>&			getFiles();
 		const std::map<int, File>&					getErrorFiles();
-		Methods										getMethods();
+		Methods										&getMethods();
 		const std::vector<std::string>&				getAcceptedExtensions();
-		File										getDefaultFile();
+		File										&getDefaultFile();
 		std::string									&getLocation();
-		std::string									getRoot();
+		std::string									&getRoot();
 		std::string									&getRedirection();
-		int											getRedirectionCode();
-		bool										getInternal();
-		bool										getAutoIndex();
+		int											&getRedirectionCode();
+		bool										&getInternal();
+		bool										&getAutoIndex();
 		// bool										getCgi();
-		std::string									getCgiPath();
+		std::string									&getCgiPath();
 		// std::string									getFastcgiPass();
 		// std::string									getFastcgiIndex();
 		// const std::map<std::string, std::string>&	getFastcgiParam();
 		// const std::vector<std::string>&				getInclude();
-		std::string									getClientBodyTempPath();
-		std::string									getUploadMaxFilesize();
-		std::string									getClientMaxBodysize();
+		std::string									&getClientBodyTempPath();
+		std::string									&getUploadMaxFilesize();
+		std::string									&getClientMaxBodysize();
 
 };
 
