@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 15:52:05 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:41:03 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,21 @@ Server	parseServer(std::vector<std::string> key, std::ifstream &file) {
 	throw std::exception();
 }
 
+void addEventsElement(std::map<std::string, Limit> &keywords, std::map<std::string, std::vector<std::string> > &data, std::string &buf, std::vector<std::string> &content) {
+	content = split(buf);
+	std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
+	int arguments = content.size() - 1;
+	if (key == keywords.end()) {
+		throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
+	}
+	else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
+		throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
+	}
+	data[content[0]] = content;
+	// Ajouter un element a la map
+	buf = ""; // vide le buffer pour parser un nouvel element
+}
+
 Events	parseEvents(std::vector<std::string> key, std::ifstream &file) {
 	(void) key;
 	std::map<std::string, Limit> keywords;
@@ -284,18 +299,7 @@ Events	parseEvents(std::vector<std::string> key, std::ifstream &file) {
 			return e;
 		}
 		else if (c == ';') {
-			content = split(buf);
-			std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
-			int arguments = content.size() - 1;
-			if (key == keywords.end()) {
-				throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
-			}
-			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
-				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
-			}
-			data[content[0]] = content;
-			// Ajouter un element a la map
-			buf = ""; // vide le buffer pour parser un nouvel element
+			addEventsElement(keywords, data, buf, content);
 		}
 		else {
 			buf += c;
@@ -303,6 +307,29 @@ Events	parseEvents(std::vector<std::string> key, std::ifstream &file) {
 	}
 	std::cout << "Erreure lors du parsing" << std::endl;
 	throw std::exception();
+}
+
+void addHttpElement(std::vector<std::string> &content, std::string &buf, std::map<std::string, Limit> &keywords, std::map<int, File> &errorFiles, std::map<std::string, std::vector<std::string> > &data) {
+	content = split(buf);
+	std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
+	int arguments = content.size() - 1;
+	if (key == keywords.end()) {
+		throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
+	}
+	else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
+		throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
+	}
+	if (content[0] == "error_page") {
+		for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
+			File file((content[content.size() - 1]), "");
+			errorFiles[atoi(content[i].c_str())] = file;
+		}
+	}
+	else {
+		data[content[0]] = content;
+	}
+	// Ajouter un element a la map
+	buf = ""; // vide le buffer pour parser un nouvel element
 }
 
 Http	parseHttp(std::vector<std::string> key, std::ifstream &file) {
@@ -334,26 +361,7 @@ Http	parseHttp(std::vector<std::string> key, std::ifstream &file) {
 			return h;
 		}
 		else if (c == ';') {
-			content = split(buf);
-			std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
-			int arguments = content.size() - 1;
-			if (key == keywords.end()) {
-				throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
-			}
-			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
-				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
-			}
-			if (content[0] == "error_page") {
-				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]), "");
-					errorFiles[atoi(content[i].c_str())] = file;
-				}
-			}
-			else {
-				data[content[0]] = content;
-			}
-			// Ajouter un element a la map
-			buf = ""; // vide le buffer pour parser un nouvel element
+			addHttpElement(content, buf, keywords, errorFiles, data);
 		}
 		else {
 			buf += c;
