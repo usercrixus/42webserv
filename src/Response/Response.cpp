@@ -74,6 +74,7 @@ int isRedirection(int statusCode) {
 }
 
 void Response::setLocation(Route &route) {
+    std::cout << "ROUTE:" << route.getRedirection() << std::endl;
 	_headers += "Location: " + route.getRedirection() + "\r\n";
 }
 

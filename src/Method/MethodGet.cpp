@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 00:51:07 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:12:07 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void MethodGet::handle()
 	else
 	{
 		Route *route = getRoute();
+		std::cout << "ROUTE from pointer:" << route->getLocation() << std::endl;
+		std::cout << "Location from pointeur:" << route->getRedirection() << std::endl;
 		if (route && route->getRedirectionCode() != -1)
+
 			handleRedirection(*route);
 		else
 			handleContentRequest(path);
