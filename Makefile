@@ -19,7 +19,6 @@ SRC_FILES = src/main \
 		src/Config/Data/Methods \
 		src/Config/Data/Server \
 		src/Config/Data/Http \
-		src/Config/Data/Events \
 		src/CGI/Cgi \
 
 INC_FILES = src/Socket/WebservSocket \
@@ -39,7 +38,6 @@ INC_FILES = src/Socket/WebservSocket \
 		src/Config/Data/Methods \
 		src/Config/Data/Server \
 		src/Config/Data/Http \
-		src/Config/Data/Events \
 		src/CGI/Cgi \
 
 INC	= $(addsuffix .hpp, $(INC_FILES))

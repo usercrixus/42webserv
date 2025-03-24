@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:07:32 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:43:43 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,8 @@ Route::Route(const Route &route) {
 	this->_root = route._root;
 	this->_redirection = route._redirection;
 	this->_redirectionCode = route._redirectionCode;
-	this->_internal = route._internal;
 	this->_autoIndex = route._autoIndex;
 	this->_cgi_path = route._cgi_path;
-	// this->_fastcgiPass = route._fastcgiPass;
-	// this->_fastcgiIndex = route._fastcgiIndex;
-	// this->_fastcgiParam = route._fastcgiParam;
-	// this->_include = route._include;
-	this->_clientBodyTempPath = route._clientBodyTempPath;
-	this->_uploadMaxFilesize = route._uploadMaxFilesize;
 	this->_clientMaxBodysize = route._clientMaxBodysize;
 }
 
@@ -88,14 +81,6 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 	}
 	
 	try {
-		std::vector<std::string> value = getValue("internal", data);
-		_internal = 1;
-	}
-	catch (std::logic_error & e) {
-		_internal = 0;
-	}
-	
-	try {
 		std::vector<std::string> value = getValue("autoindex", data);
 		if (value.size() < 2) {
 			throw std::invalid_argument("Incomplete autoindex.");
@@ -108,17 +93,6 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 	catch (std::logic_error & e) {
 		_autoIndex = 0;
 	}
-
-	// try {
-	// 	std::vector<std::string> value = getValue("fastcgi_pass", data);
-	// 	if (value.size() < 2) {
-	// 		throw std::invalid_argument("Incomplete fastcgi_pass.");
-	// 	}
-	// 	_fastcgiPass = value[1];
-	// }
-	// catch (std::logic_error & e) {
-	// 	_fastcgiPass = "";
-	// }
 
 	try {
 		std::vector<std::string> value = getValue("client_max_body_size", data);
@@ -134,49 +108,6 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 	}
 	catch (std::logic_error & e) {
 		_cgi_path = "";
-	}
-
-	// try {
-	// 	std::vector<std::string> value = getValue("fastcgi_index", data);
-	// 	if (value.size() < 2) {
-	// 		throw std::invalid_argument("Incomplete fastcgi_index.");
-	// 	}
-	// 	_fastcgiIndex = value[1];
-	// }
-	// catch (std::logic_error & e) {
-	// 	_fastcgiIndex = "";
-	// }
-	
-	try {
-		std::vector<std::string> value = getValue("client_body_temp_path", data);
-		if (value.size() < 2) {
-			throw std::invalid_argument("Incomplete client_body_temp_path.");
-		}
-		_clientBodyTempPath = value[1];
-	}
-	catch (std::logic_error & e) {
-		_clientBodyTempPath = ""; // voir si il faut une valeure par defaut
-	}
-	
-	// try {
-	// 	std::vector<std::string> value = getValue("include", data);
-	// 	for (int i = 1; i < static_cast<int>(value.size()); i++) {
-	// 		_include.push_back(value[i]);
-	// 	}
-	// }
-	// catch (std::logic_error & e) {
-		
-	// }
-	
-	try {
-		std::vector<std::string> value = getValue("upload_max_filesize", data);
-		if (value.size() < 2) {
-			throw std::invalid_argument("Incomplete upload_max_filesize.");
-		}
-		_uploadMaxFilesize = value[1];
-	}
-	catch (std::logic_error & e) {
-		_uploadMaxFilesize = "50M"; // voir si il faut une valeure par defaut
 	}
 }
 
@@ -216,44 +147,13 @@ std::string						&Route::getRedirection() {
 std::string						&Route::getCgiPath() {
 	return _cgi_path;
 }
-// bool							Route::getCgi() {
-// 	return _cgi;
-// }
-
-// std::string						Route::getFastcgiPass() {
-// 	return _fastcgiPass;
-// }
-
-// std::string						Route::getFastcgiIndex() {
-// 	return _fastcgiIndex;
-// }
-
-// const std::map<std::string, std::string>&		Route::getFastcgiParam() {
-// 	return _fastcgiParam;
-// }
-
-// const std::vector<std::string>&		Route::getInclude() {
-// 	return _include;
-// }
-
-std::string						&Route::getClientBodyTempPath() {
-	return _clientBodyTempPath;
-}
 
 int								&Route::getRedirectionCode() {
 	return _redirectionCode;
 }
 
-bool							&Route::getInternal() {
-	return _internal;
-}
-
 bool							&Route::getAutoIndex() {
 	return _autoIndex;
-}
-
-std::string						&Route::getUploadMaxFilesize() {
-	return _uploadMaxFilesize;
 }
 
 std::string						&Route::getClientMaxBodysize() {

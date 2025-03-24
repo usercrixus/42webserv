@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:45:34 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:04:55 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:44:07 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,8 @@ class Route {
 		std::string								_root;
 		std::string								_redirection;
 		int										_redirectionCode;
-		bool									_internal;
 		bool									_autoIndex;
 		std::string								_cgi_path;
-		// bool									_cgi;
-		// std::string								_fastcgiPass;
-		// std::string								_fastcgiIndex;
-		// std::map<std::string, std::string>		_fastcgiParam;
-		// std::vector<std::string>				_include;
-		std::string								_clientBodyTempPath;
-		std::string								_uploadMaxFilesize;
 		std::string								_clientMaxBodysize;
 		
 		public :
@@ -61,16 +53,8 @@ class Route {
 		std::string									&getRoot();
 		std::string									&getRedirection();
 		int											&getRedirectionCode();
-		bool										&getInternal();
 		bool										&getAutoIndex();
-		// bool										getCgi();
 		std::string									&getCgiPath();
-		// std::string									getFastcgiPass();
-		// std::string									getFastcgiIndex();
-		// const std::map<std::string, std::string>&	getFastcgiParam();
-		// const std::vector<std::string>&				getInclude();
-		std::string									&getClientBodyTempPath();
-		std::string									&getUploadMaxFilesize();
 		std::string									&getClientMaxBodysize();
 
 };

@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:08:04 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:09:13 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:58:11 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void Server::init(std::map<std::string, std::vector<std::string> > data, std::ve
 	
 	try {
 		std::vector<std::string> value = getValue("client_max_body_size", data);
-		_clientMaxBodysize = value[1];
+		_clientMaxBodysize = atoi(value[1].c_str());
 	}
 	catch (std::exception & e) {
-		_clientMaxBodysize = "";
+		_clientMaxBodysize = -1;
 	}
 	
 	try {
@@ -111,7 +111,7 @@ std::vector<File>			&Server::getIndex() {
 	return _index;
 }
 
-std::string					&Server::getClientMaxBodysize() {
+long long					&Server::getClientMaxBodysize() {
 	return _clientMaxBodysize;
 }
 

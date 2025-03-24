@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:55:45 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:02:39 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:58:29 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Http {
 		std::vector<std::string>	_serverName;
 		Server						_defaultServer;
 		std::map<int, File>			_errorFiles;
-		std::string					_clientMaxBody;
+		long long					_clientMaxBody;
 	
 	public :
 		Http();
@@ -41,7 +41,7 @@ class Http {
 		std::vector<std::string>			&getServerName();
 		Server				&getDefaultServer();
 		const std::map<int, File> &getErrorFiles();
-		std::string			&getClientMaxBody();
+		long long			&getClientMaxBody();
 };
 
 #endif

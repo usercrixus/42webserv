@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:01:14 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:08:23 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:57:07 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Server {
 		std::vector<Route>			_routes;
 		std::vector<std::string>	_serverNames;
 		unsigned int				_listen;
-		std::string					_clientMaxBodysize;
+		long long					_clientMaxBodysize;
 		std::string					_root;
 		std::vector<File>			_index;
 		std::map<int, File>			_errorFiles;
@@ -40,7 +40,7 @@ class Server {
 		std::vector<Route>			&getRoutes();
 		std::vector<std::string>	&getServerNames();
 		unsigned int				&getListen();
-		std::string					&getClientMaxBodysize();
+		long long					&getClientMaxBodysize();
 		std::string					&getRoot();
 		std::vector<File>			&getIndex();
 		const std::map<int, File>&	getErrorFiles();
