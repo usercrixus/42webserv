@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:08:04 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/23 23:39:24 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:30:24 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void Server::init(std::map<std::string, std::vector<std::string> > data, std::ve
 
 //getters
 
-std::vector<Route>			Server::getRoutes() {
+std::vector<Route>			&Server::getRoutes() {
 	return _routes;
 }
 std::vector<std::string>	Server::getServerNames() {

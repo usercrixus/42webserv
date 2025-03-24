@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Data.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 00:22:50 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:36:56 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ unsigned int Data::getWorkerProcesses() {
 	return _workerProcesses;
 }
 
-Http Data::getHttp() {
+Http &Data::getHttp() {
 	return _http;
 }
 Events Data::getEvents() {

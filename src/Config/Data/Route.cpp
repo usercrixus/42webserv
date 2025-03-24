@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/19 21:19:04 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:38:10 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ File							Route::getDefaultFile() {
 	return _defaultFile;
 }
 
-std::string						Route::getLocation() {
+std::string						&Route::getLocation() {
 	return _location;
 }
 
@@ -209,7 +209,7 @@ std::string						Route::getRoot() {
 	return _root;
 }
 
-std::string						Route::getRedirection() {
+std::string						&Route::getRedirection() {
 	return _redirection;
 }
 

@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 01:12:18 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:33:16 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ Route *IMethod::getRoute()
         {
             std::cout << "ROUTE:" << Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation() << std::endl;
             std::cout << "Location:" << Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getRedirection() << std::endl;
-            return &Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i];
+            return &(Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i]);
         }
     }
     return NULL;

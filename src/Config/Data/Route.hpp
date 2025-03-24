@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:45:34 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/19 21:18:58 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:38:17 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ class Route {
 		Methods										getMethods();
 		const std::vector<std::string>&				getAcceptedExtensions();
 		File										getDefaultFile();
-		std::string									getLocation();
+		std::string									&getLocation();
 		std::string									getRoot();
-		std::string									getRedirection();
+		std::string									&getRedirection();
 		int											getRedirectionCode();
 		bool										getInternal();
 		bool										getAutoIndex();

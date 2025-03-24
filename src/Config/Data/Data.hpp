@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Data.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:10:32 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 00:18:20 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:36:51 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Data {
 		//getters
 
 		unsigned int getWorkerProcesses();
-		Http getHttp();
+		Http &getHttp();
 		Events getEvents();
 	
 };
