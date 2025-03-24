@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/23 23:31:14 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:22:50 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ Data::Data(std::string path)
 	printData(*this);
 }
 
-Data::~Data() {
-	if (instance) {
-		delete instance;
-	}
-}
+Data::~Data() {}
 
 void	Data::init() {
 	std::vector<std::string> value;
@@ -121,8 +117,16 @@ Data* Data::getInstance() {
 }
 
 Data* Data::getInstance(std::string path) {
-    if (!instance) {
-        instance = new Data(path);  // Lazy instantiation
+	if (!instance) {
+		instance = new Data(path);  // Lazy instantiation
     }
     return instance;
+}
+
+void Data::destroyInstance() {
+	if (instance) {
+		delete instance;
+	}
+	std::cout << "deleted" << std::endl;
+	instance = NULL;
 }

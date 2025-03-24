@@ -9,6 +9,7 @@
 void exitClean (int signal) {
 	
 	std::cout << "\n\nBye!" << std::endl;
+	Data::destroyInstance();
 	exit(signal);
 }
 
@@ -46,6 +47,7 @@ int main(int argc, char **argv) {
     {
         std::cerr << e.what() << '\n';
     }
+	std::cout << "test" << std::endl;
     return 0;
 }
 
