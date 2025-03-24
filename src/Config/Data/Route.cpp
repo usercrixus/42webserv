@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 18:05:19 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:22:20 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,9 @@ bool							&Route::getAutoIndex() {
 
 std::string						&Route::getClientMaxBodysize() {
 	return _clientMaxBodysize;
+}
+
+std::string &Route::getIndex()
+{
+	return _index;
 }

@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 17:26:38 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:57:26 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,13 @@ void MethodGet::handleRedirection(Route& route)
 
 void MethodGet::handleContentRequest(std::string& path)
 {
-	if (isDirectory(path))
+	if (isDirectory(path) && isListingAllowed())
 	{
-		if (isListingAllowed())
-		{
-			_response.setBody(generateDirectoryListing(path));
-			_response.setHeader(200, _request.getPath());
-		}
-		else
-		{
-			_response.setBody(getPageError(403));
-			_response.setHeader(403, getPathError(403));
-		}
+		_response.setBody(generateDirectoryListing(path));
+		_response.setHeader(200, _request.getPath());
 	}
 	else if (getRoute() && !getRoute()->getCgiPath().empty())
 	{
-		std::cout << "HERE WE ARE" << std::endl;
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
 		_response.setHeader(cgi.getStatus(), _request.getPath(), cgi.getCookies());
