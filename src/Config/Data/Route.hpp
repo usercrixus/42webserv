@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:45:34 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:44:07 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:04:39 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class Route {
 		bool									_autoIndex;
 		std::string								_cgi_path;
 		std::string								_clientMaxBodysize;
+		std::string								_index;
 		
 		public :
 		Route();
@@ -56,6 +57,7 @@ class Route {
 		bool										&getAutoIndex();
 		std::string									&getCgiPath();
 		std::string									&getClientMaxBodysize();
+		std::string									&getIndex();
 
 };
 

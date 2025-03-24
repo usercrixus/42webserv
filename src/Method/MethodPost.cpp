@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodPost.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 17:39:54 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:07:51 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void MethodPost::handle()
 		_response.setBody(getPageError(405));
 		_response.setHeader(405, getPathError(405));
 	}
-    else if (_request.getBody().size() > Data::getInstance()->getHttp().getClientMaxBody())
+    else if (static_cast<long long>(_request.getBody().size()) > Data::getInstance()->getHttp().getClientMaxBody())
     {
         _response.setBody(getPageError(413));
         _response.setHeader(413, _request.getPath());

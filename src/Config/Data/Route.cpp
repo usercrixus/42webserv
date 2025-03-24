@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:43:43 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:05:19 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,13 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 	}
 	catch (std::logic_error & e) {
 		_cgi_path = "";
+	}
+	try {
+		std::vector<std::string> value = getValue("index", data);
+		_index = value[1];
+	}
+	catch (std::logic_error & e) {
+		_index = "";
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:13:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:53:24 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:08:38 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ Data* Data::instance = NULL;
 Data::Data()
 {
 	this->parseData(CONFIG_PATH);
-	printData(*this);
+	// printData(*this);
 }
 
 Data::Data(std::string path)
 {
 	this->parseData(path);
-	printData(*this);
+	// printData(*this);
 }
 
 Data::~Data() {}

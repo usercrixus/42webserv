@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:50:32 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:05:39 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ std::string parseKey(std::vector<std::string>& key) {
 Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 	std::map<std::string, Limit> keywords;
 	std::map<std::string, std::vector<std::string> > data;
-	// std::map<std::string, std::string > fastCgiParam;
 	std::map<int, File> errorFiles;
 	Methods method;
 	char c;
