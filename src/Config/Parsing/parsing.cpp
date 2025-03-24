@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/21 11:05:08 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:52:05 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,26 @@ int isInVector(std::vector<std::string> vector, std::string string) {
 		}
 	}
 	return 0;
+}
+
+void addLimitElement(std::vector<std::string> &content, std::string &buf, bool &deny, std::vector<std::string> &clients, std::map<std::string, Limit> &keywords) {
+	content = split(buf);
+	std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
+	int arguments = content.size() - 1;
+	if (key == keywords.end()) {
+		throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
+	}
+	else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
+		throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
+	}
+	if (content.size() == 2 && content[0] == "deny" && content[1] == "all") {
+		deny = 1;
+	}
+	else if (content.size() == 2 && content[0] == "allow") {
+		clients.push_back(content[1]);
+	}
+	// Ajouter un element a la map
+	buf = ""; // vide le buffer pour parser un nouvel element
 }
 
 Methods	parseLimit(std::vector<std::string> key, std::ifstream &file) {
@@ -67,33 +87,17 @@ Methods	parseLimit(std::vector<std::string> key, std::ifstream &file) {
 			return m;
 		}
 		else if (c == ';') {
-			content = split(buf);
-			std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
-			int arguments = content.size() - 1;
-			if (key == keywords.end()) {
-				throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
-			}
-			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
-				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
-			}
-			if (content.size() == 2 && content[0] == "deny" && content[1] == "all") {
-				deny = 1;
-			}
-			else if (content.size() == 2 && content[0] == "allow") {
-				clients.push_back(content[1]);
-			}
-			// Ajouter un element a la map
-			buf = ""; // vide le buffer pour parser un nouvel element
+			addLimitElement(content, buf, deny, clients, keywords);
 		}
 		else {
 			buf += c;
 		}
 	}
 	std::cout << "Erreure lors du parsing" << std::endl;
-	throw std::exception();}
+	throw std::exception();
+}
 
-Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
-	std::map<std::string, Limit> keywords;
+void initKeywordsLocation(std::map<std::string, Limit>& keywords) {
 	// keywords["include"] = Limit();
 	keywords["root"] = Limit(1, 1);
 	keywords["autoindex"] = Limit(1, 1);
@@ -106,16 +110,40 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 	keywords["client_body_temp_path"] = Limit(1, 1);
 	keywords["upload_max_filesize"] = Limit(1, 1);
 	keywords["index"] = Limit(1, 1);
-	
-	std::map<std::string, std::vector<std::string> > data;
-	// std::map<std::string, std::string > fastCgiParam;
-	std::map<int, File> errorFiles;
-	Methods method;
-	char c;
-	std::string buf;
-	std::vector<std::string> content;
+}
 
+void addLocationElement (std::map<std::string, Limit>& keywords, std::map<std::string, std::vector<std::string> >& data, std::map<int, File>& errorFiles, std::vector<std::string>& content, std::string& buf) {
+	content = split(buf);
+	std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
+	int arguments = content.size() - 1;
+	if (key == keywords.end()) {
+		throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
+	}
+	else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
+		throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
+	}
+	// if (content[0] == "fastcgi_param") {
+	// 	if (content.size() != 3) {
+	// 		throw std::logic_error("fastcgi_param is invalid.");
+	// 	}
+	// 	fastCgiParam[content[1]] = content[2];
+	// }
+	if (content[0] == "error_page") {
+		for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
+			File file((content[content.size() - 1]), "");
+			errorFiles[atoi(content[i].c_str())] = file;
+		}
+	}
+	else {
+		data[content[0]] = content;
+		// Ajouter un element a la map
+	}
+	buf = ""; // vide le buffer pour parser un nouvel element
+}
+
+std::string parseKey(std::vector<std::string>& key) {
 	std::string path;
+
 	if (key.size() > 2 && key[1] == "=" && key.size() == 3) {
 		path = key[2];
 	}
@@ -125,7 +153,21 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 	else {
 		throw std::logic_error("Invalid location.");
 	}
+	return path;
+}
 
+Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
+	std::map<std::string, Limit> keywords;
+	std::map<std::string, std::vector<std::string> > data;
+	// std::map<std::string, std::string > fastCgiParam;
+	std::map<int, File> errorFiles;
+	Methods method;
+	char c;
+	std::string buf;
+	std::vector<std::string> content;
+	std::string path = parseKey(key);
+	
+	initKeywordsLocation(keywords);
 	while (file.get(c)) {
 		if (c == '{') {
 			content = split(buf);
@@ -141,32 +183,7 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 			return r;
 		}
 		else if (c == ';') {
-			content = split(buf);
-			std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
-			int arguments = content.size() - 1;
-			if (key == keywords.end()) {
-				throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
-			}
-			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
-				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
-			}
-			// if (content[0] == "fastcgi_param") {
-			// 	if (content.size() != 3) {
-			// 		throw std::logic_error("fastcgi_param is invalid.");
-			// 	}
-			// 	fastCgiParam[content[1]] = content[2];
-			// }
-			if (content[0] == "error_page") {
-				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]), "");
-					errorFiles[atoi(content[i].c_str())] = file;
-				}
-			}
-			else {
-				data[content[0]] = content;
-				// Ajouter un element a la map
-			}
-			buf = ""; // vide le buffer pour parser un nouvel element
+			addLocationElement(keywords, data, errorFiles, content, buf);
 		}
 		else {
 			buf += c;
@@ -176,23 +193,49 @@ Route	parseLocation(std::vector<std::string> key, std::ifstream &file) {
 	throw std::exception();
 }
 
-Server	parseServer(std::vector<std::string> key, std::ifstream &file) {
-	(void) key;
-	std::map<std::string, Limit> keywords;
+void initServerKeywords(std::map<std::string, Limit>& keywords) {
 	keywords["server_name"] = Limit();
 	keywords["error_page"] = Limit();
 	keywords["index"] = Limit();
 	keywords["listen"] = Limit(1, 1);
 	keywords["root"] = Limit(1, 1);
 	keywords["client_max_body_size"] = Limit(1, 1);
-	
+}
+
+void addServerElement(std::map<std::string, Limit>& keywords, std::map<std::string, std::vector<std::string> >& data, std::map<int, File>& errorFiles, std::string& buf, std::vector<std::string> &content) {
+	content = split(buf);
+	std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
+	int arguments = content.size() - 1;
+	if (key == keywords.end()) {
+		throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
+	}
+	else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
+		throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
+	}
+	if (content[0] == "error_page") {
+		for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
+			File file((content[content.size() - 1]), "");
+			errorFiles[atoi(content[i].c_str())] = file;
+		}
+	}
+	else {
+		data[content[0]] = content;
+	}
+	// Ajouter un element a la map
+	buf = ""; // vide le buffer pour parser un nouvel element
+}
+
+Server	parseServer(std::vector<std::string> key, std::ifstream &file) {
+	(void) key;
+	std::map<std::string, Limit> keywords;
 	std::map<std::string, std::vector<std::string> > data;
 	std::map<int, File> errorFiles;
 	char c;
 	std::string buf;
 	std::vector<std::string> content;
 	std::vector<Route> routes;
-
+	
+	initServerKeywords(keywords);
 	while (file.get(c)) {
 		if (c == '{') {
 			content = split(buf);
@@ -208,26 +251,7 @@ Server	parseServer(std::vector<std::string> key, std::ifstream &file) {
 			return s;
 		}
 		else if (c == ';') {
-			content = split(buf);
-			std::map<std::string, Limit>::iterator key = keywords.find(content[0]);
-			int arguments = content.size() - 1;
-			if (key == keywords.end()) {
-				throw std::logic_error("Error: config file: unrecognized argument: " + content[0]);
-			}
-			else if (key->second.getLimited() && (arguments < key->second.getMin() || arguments > key->second.getMax())) {
-				throw std::logic_error("Error: config file: invalid argument on key: " + content[0]);
-			}
-			if (content[0] == "error_page") {
-				for (int i = 1; i < static_cast<int>(content.size()) - 1; i++) {
-					File file((content[content.size() - 1]), "");
-					errorFiles[atoi(content[i].c_str())] = file;
-				}
-			}
-			else {
-				data[content[0]] = content;
-			}
-			// Ajouter un element a la map
-			buf = ""; // vide le buffer pour parser un nouvel element
+			addServerElement(keywords, data, errorFiles, buf, content);
 		}
 		else {
 			buf += c;
