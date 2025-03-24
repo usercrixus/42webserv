@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 21:29:42 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:21:28 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,21 @@ bool IMethod::isDirectory(const std::string &path)
 std::string IMethod::getFinalPath()
 {
 	std::string path;
+    Route *route = getRoute();
 
 	if (_request.getPath().compare("/") == 0)
 		path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getIndex()[0].getRelativePath();
-	else
-		path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+	else if (route)
+    {
+        path = route->getRoot();
+        path += route->getIndex();
+        std::cout << "here0: " << path << std::endl;
+    }
+    else
+    {
+        path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath();
+    }
 	path = urlDecode(path);
-
-    int routesSize = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes().size();
-    int i = 0;
-    while (i < routesSize)
-    {
-        std::string buffer = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getLocation();
-        if (path.find(buffer) != std::string::npos && !Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getRoot().empty())
-            path.replace(path.find(buffer), buffer.size(), Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoutes()[i].getRoot());
-        i++;
-    }
-    if (isDirectory(path))
-    {
-        std::string buffer = getRoute()->getIndex();
-        if (!buffer.empty())
-            path += buffer;
-    }
     return path;
 }
 

@@ -84,7 +84,6 @@ void Response::setHeader(int statusCode, std::string path, Route &route, const s
     {
         setLocation(route);
     }
-    std::cout << _headers << std::endl;
 }
 
 void Response::setHeader(int statusCode, std::string path, const std::map<std::string, std::string> &cookies)
@@ -96,7 +95,6 @@ void Response::setHeader(int statusCode, std::string path, const std::map<std::s
     setContentLen();
     setConnection();
     setCookies(cookies);
-    std::cout << _headers << std::endl;
 }
 
 
