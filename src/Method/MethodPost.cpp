@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:40 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 00:15:30 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:33:37 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,18 @@ void MethodPost::createFile(std::string path)
 void MethodPost::handle()
 {
 	std::string path;
-	
+
 	path = getFinalPath();
 	if (!isMethodAllowed("POST"))
 	{
 		_response.setBody(getPageError(405));
 		_response.setHeader(405, getPathError(405));
 	}
+    else if (_request.getBody().size() > Data::getInstance()->getHttp().getClientMaxBody())
+    {
+        _response.setBody(getPageError(413));
+        _response.setHeader(413, _request.getPath());
+    }
     else if (path.compare(0, 4, "/cgi") == 0) //a modifier
 	{
 		Cgi cgi(_request, path);

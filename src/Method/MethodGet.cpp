@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MethodGet.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmorel <gmorel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 14:03:00 by gmorel           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:26:38 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ std::string MethodGet::generateDirectoryListing(const std::string& path)
 void MethodGet::handle()
 {
 	std::string path = getFinalPath();
-
 	if (!isMethodAllowed("GET"))
 		handleMethodNotAllowed();
 	else
@@ -99,8 +98,9 @@ void MethodGet::handleContentRequest(std::string& path)
 			_response.setHeader(403, getPathError(403));
 		}
 	}
-	else if (path.compare(0, 4, "/cgi") == 0)
+	else if (getRoute() && !getRoute()->getCgiPath().empty())
 	{
+		std::cout << "HERE WE ARE" << std::endl;
 		Cgi cgi(_request, path);
 		_response.setBody(cgi.getBody());
 		_response.setHeader(cgi.getStatus(), _request.getPath(), cgi.getCookies());
