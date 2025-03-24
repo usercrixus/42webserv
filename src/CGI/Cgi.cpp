@@ -13,34 +13,33 @@ std::vector<std::string> my_split(const std::string& str, char delimiter)
     return tokens;
 }
 
-void Cgi::getQueryStringFromCookies(std::map<std::string, std::string>& cookies, std::string& QUERY_STRING)
+void Cgi::getQueryStringFromCookies(std::map<std::string, std::string>& requestCookies, std::string& QUERY_STRING)
 {
     bool firstCookie = true;
+    QUERY_STRING.clear();
 
-    for (std::map<std::string, std::string>::iterator itURL = _cookies.begin(); itURL != _cookies.end(); ++itURL)
+    if (_cookies.size() != 0)
     {
-        std::map<std::string, std::string>::iterator itRequest = cookies.find(itURL->first);
-        if (itRequest != cookies.end())
-		{ //A GERER POUR EVITER LE DOUBLON !!!!
-            itRequest->second = itURL->second;
-			if (!firstCookie)
-            	QUERY_STRING.append("&");
-			QUERY_STRING.append(itURL->first);
-			QUERY_STRING.append("=");
-			QUERY_STRING.append(itURL->second);
-		}
-
-        firstCookie = false;
+        for (std::map<std::string, std::string>::iterator itURL = _cookies.begin(); itURL != _cookies.end(); ++itURL)
+            requestCookies.erase(itURL->first);
+        for (std::map<std::string, std::string>::iterator itURL = _cookies.begin(); itURL != _cookies.end(); ++itURL)
+        {
+            if (!itURL->second.empty())
+            {
+                if (!firstCookie)
+                    QUERY_STRING.append("&");
+                QUERY_STRING.append(itURL->first).append("=").append(itURL->second);
+                firstCookie = false;
+            }
+        }
     }
-    if (QUERY_STRING.empty())
+    for (std::map<std::string, std::string>::iterator itRequest = requestCookies.begin(); itRequest != requestCookies.end(); ++itRequest)
     {
-        for (std::map<std::string, std::string>::iterator it = cookies.begin(); it != cookies.end(); ++it)
+        if (QUERY_STRING.find(itRequest->first + "=") == std::string::npos && !itRequest->second.empty())
         {
             if (!firstCookie)
                 QUERY_STRING.append("&");
-            QUERY_STRING.append(it->first);
-            QUERY_STRING.append("=");
-            QUERY_STRING.append(it->second);
+            QUERY_STRING.append(itRequest->first).append("=").append(itRequest->second);
             firstCookie = false;
         }
     }
@@ -145,8 +144,11 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
     // std::string CONTENT_LENGTH = ""; //a prendre dans le header de la requete
     // std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
     std::string REDIRECT_STATUS = "200";
+	std::map<std::string, std::string> requestCookies = request.getCookies();
 
 	setCookies(QUERY_STRING);
+	if (requestCookies.size() != 0)
+		getQueryStringFromCookies(requestCookies, QUERY_STRING);
     if (request.getMethod() != "POST")
 	{
         _status = 405;

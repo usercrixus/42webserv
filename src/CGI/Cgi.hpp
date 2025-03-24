@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <algorithm>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
