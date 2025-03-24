@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IMethod.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/24 23:21:28 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:02:24 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ std::string IMethod::getFinalPath()
     {
         path = route->getRoot();
         path += route->getIndex();
-        std::cout << "here0: " << path << std::endl;
+		std::cout << "Index: " << route->getIndex() << std::endl;
+        std::cout << "testhere0: " << path << std::endl;
     }
     else
     {

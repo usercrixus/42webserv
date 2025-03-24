@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Route.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 21:22:20 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:23:03 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ Route::Route(const Route &route) {
 	this->_autoIndex = route._autoIndex;
 	this->_cgi_path = route._cgi_path;
 	this->_clientMaxBodysize = route._clientMaxBodysize;
+	this->_index = route._index;
 }
 
 Route::~Route() {}

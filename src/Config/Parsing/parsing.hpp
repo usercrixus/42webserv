@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 02:32:06 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 18:08:17 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:06:18 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ std::vector<std::string>	split(std::string s);
 Http						parseHttp(std::vector<std::string> key, std::ifstream &file);
 Events						parseEvents(std::vector<std::string> key, std::ifstream &file);
 std::vector<std::string>	getValue(std::string key, std::map<std::string, std::vector<std::string> > data);
-// void printData(Data d);
+void printData(Data d);
 
 #endif

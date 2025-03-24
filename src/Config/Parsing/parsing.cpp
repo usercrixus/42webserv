@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:11:53 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 18:05:39 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:07:03 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,83 +316,82 @@ std::vector<std::string>	getValue(std::string key, std::map<std::string, std::ve
 	throw std::logic_error("Key does not exist.");
 }
 
-// void printData(Data d) {
-// 	std::cout << "workerProcesses : " << d.getWorkerProcesses() << std::endl;
-// 	std::cout << "Events : workerConnections : " << d.getEvents().getWorkerConnections() << std::endl;
-// 	Http http = d.getHttp();
-// 	std::cout << "Http : _serverName : ";
-// 	for (int i = 0; i < static_cast<int>(http.getServerName().size()); i++) {
-// 		std::cout << http.getServerName()[i] << " | ";
-// 	}
-// 	std::cout << std::endl;
-// 	std::cout << "Http : _errorFiles : ";
-// 	for (int i = 0; i < static_cast<int>(http.getServerName().size()); i++) {
-// 		for (std::map<int, File>::const_iterator it = http.getErrorFiles().begin(); it != http.getErrorFiles().end(); it++) {
-// 			File f = it->second;
-// 			std::cout << "Error : " << it->first << std::endl;
-// 			std::cout << "File : _name : " << f.getName() << std::endl;
-// 			std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
-// 			std::cout << "File : _root : " << f.getRoot() << std::endl;
-// 			std::cout << "File : _extension : " << f.getExtension() << std::endl;
-// 			std::cout << std::endl;
-// 		}
-// 	}
-// 	std::cout << std::endl;
-// 	std::cout << "Http : _clientMaxBody : " << http.getClientMaxBody() << std::endl;
-// 	for (int i = 0; i < static_cast<int>(http.getServers().size()); i++) {
-// 		Server s = http.getServers()[i];
-// 		std::cout << "Server : _serverNames : ";
-// 		for (int j = 0; j < static_cast<int>(s.getServerNames().size()); j++) {
-// 			std::cout << s.getServerNames()[j] << " | ";
-// 		}
-// 		std::cout << std::endl << "Server : _listen : " << s.getListen() << std::endl;
-// 		std::cout << std::endl << "Server : _clientMaxBodysize : " << s.getClientMaxBodysize() << std::endl;
-// 		std::cout << "Server : _root : " << s.getRoot() << std::endl;
-// 		for (int j = 0; j < static_cast<int>(s.getIndex().size()); j++) {
-// 			File f = s.getIndex()[j];
-// 			std::cout << "Server : File : _name : " << f.getName() << std::endl;
-// 			std::cout << "Server : File : _relativePath : " << f.getRelativePath() << std::endl;
-// 			std::cout << "Server : File : _root : " << f.getRoot() << std::endl;
-// 			std::cout << "Server : File : _extension : " << f.getExtension() << std::endl;
-// 			std::cout << std::endl;
-// 		}
-// 		// afficher _index
-// 		for (int j = 0; j < static_cast<int>(s.getRoutes().size()); j++) {
-// 			Route r = s.getRoutes()[j];
-// 			//afficher errorFiles / methods / extensios
-// 			std::cout << "Route : _location : " << r.getLocation() << std::endl;
-// 			std::cout << "Route : _root : " << r.getRoot() << std::endl;
-// 			std::cout << "Route : _errorFiles : ";
-// 			for (std::map<int, File>::const_iterator it = r.getErrorFiles().begin(); it != r.getErrorFiles().end(); it++) {
-// 				File f = it->second;
-// 				std::cout << "Error : " << it->first << std::endl;
-// 				std::cout << "File : _name : " << f.getName() << std::endl;
-// 				std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
-// 				std::cout << "File : _root : " << f.getRoot() << std::endl;
-// 				std::cout << "File : _extension : " << f.getExtension() << std::endl;
-// 				std::cout << std::endl;
-// 			}
-// 			std::cout << std::endl;
-// 			std::cout << "Route : _redirection : " << r.getRedirection() << std::endl;
-// 			std::cout << "Route : _redirectionCode : " << r.getRedirectionCode() << std::endl;
-// 			std::string c = r.getAutoIndex() == 1 ? "true" : "false";
-// 			std::cout << "Route : _autoIndex : " << c << std::endl;
-// 			std::cout << "Route : _cgiPath : " << r.getCgiPath() << std::endl;
-// 			Methods m = r.getMethods();
-// 			std::cout << "Route : Methods : _allowedMethods : ";
-// 			for (std::vector<std::string>::const_iterator it = m.getAllowedMethods().begin(); it != m.getAllowedMethods().end(); it++) {
-// 				std::cout << *it << " | ";
-// 			}
-// 			std::cout << std::endl;
-// 			std::cout << "Route : Methods : _allowedClients : ";
-// 			for (std::vector<std::string>::const_iterator it = m.getAllowedClients().begin(); it != m.getAllowedClients().end(); it++) {
-// 				std::cout << *it << " | ";
-// 			}
-// 			std::cout << std::endl;
-// 			std::cout << "Route : Methods : _deny : " << m.getDeny() << std::endl;
-// 			std::cout << "Route : _clientMaxBodysize : " << r.getClientMaxBodysize() << std::endl;
-// 			std::cout << std::endl;
-// 			std::cout << std::endl;
-// 		}
-// 	}
-// }
+void printData(Data d) {
+	Http http = d.getHttp();
+	std::cout << "Http : _serverName : ";
+	for (int i = 0; i < static_cast<int>(http.getServerName().size()); i++) {
+		std::cout << http.getServerName()[i] << " | ";
+	}
+	std::cout << std::endl;
+	std::cout << "Http : _errorFiles : ";
+	for (int i = 0; i < static_cast<int>(http.getServerName().size()); i++) {
+		for (std::map<int, File>::const_iterator it = http.getErrorFiles().begin(); it != http.getErrorFiles().end(); it++) {
+			File f = it->second;
+			std::cout << "Error : " << it->first << std::endl;
+			std::cout << "File : _name : " << f.getName() << std::endl;
+			std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
+			std::cout << "File : _root : " << f.getRoot() << std::endl;
+			std::cout << "File : _extension : " << f.getExtension() << std::endl;
+			std::cout << std::endl;
+		}
+	}
+	std::cout << std::endl;
+	std::cout << "Http : _clientMaxBody : " << http.getClientMaxBody() << std::endl;
+	for (int i = 0; i < static_cast<int>(http.getServers().size()); i++) {
+		Server s = http.getServers()[i];
+		std::cout << "Server : _serverNames : ";
+		for (int j = 0; j < static_cast<int>(s.getServerNames().size()); j++) {
+			std::cout << s.getServerNames()[j] << " | ";
+		}
+		std::cout << std::endl << "Server : _listen : " << s.getListen() << std::endl;
+		std::cout << std::endl << "Server : _clientMaxBodysize : " << s.getClientMaxBodysize() << std::endl;
+		std::cout << "Server : _root : " << s.getRoot() << std::endl;
+		for (int j = 0; j < static_cast<int>(s.getIndex().size()); j++) {
+			File f = s.getIndex()[j];
+			std::cout << "Server : File : _name : " << f.getName() << std::endl;
+			std::cout << "Server : File : _relativePath : " << f.getRelativePath() << std::endl;
+			std::cout << "Server : File : _root : " << f.getRoot() << std::endl;
+			std::cout << "Server : File : _extension : " << f.getExtension() << std::endl;
+			std::cout << std::endl;
+		}
+		// afficher _index
+		for (int j = 0; j < static_cast<int>(s.getRoutes().size()); j++) {
+			Route r = s.getRoutes()[j];
+			//afficher errorFiles / methods / extensios
+			std::cout << "Route : _location : " << r.getLocation() << std::endl;
+			std::cout << "Route : _root : " << r.getRoot() << std::endl;
+			std::cout << "Route : _errorFiles : ";
+			for (std::map<int, File>::const_iterator it = r.getErrorFiles().begin(); it != r.getErrorFiles().end(); it++) {
+				File f = it->second;
+				std::cout << "Error : " << it->first << std::endl;
+				std::cout << "File : _name : " << f.getName() << std::endl;
+				std::cout << "File : _relativePath : " << f.getRelativePath() << std::endl;
+				std::cout << "File : _root : " << f.getRoot() << std::endl;
+				std::cout << "File : _extension : " << f.getExtension() << std::endl;
+				std::cout << std::endl;
+			}
+			std::cout << std::endl;
+			std::cout << "Route : _index : " << r.getIndex() << std::endl;
+			std::cout << "Route : _redirection : " << r.getRedirection() << std::endl;
+			std::cout << "Route : _redirectionCode : " << r.getRedirectionCode() << std::endl;
+			std::string c = r.getAutoIndex() == 1 ? "true" : "false";
+			std::cout << "Route : _autoIndex : " << c << std::endl;
+			std::cout << "Route : _cgiPath : " << r.getCgiPath() << std::endl;
+			Methods m = r.getMethods();
+			std::cout << "Route : Methods : _allowedMethods : ";
+			for (std::vector<std::string>::const_iterator it = m.getAllowedMethods().begin(); it != m.getAllowedMethods().end(); it++) {
+				std::cout << *it << " | ";
+			}
+			std::cout << std::endl;
+			std::cout << "Route : Methods : _allowedClients : ";
+			for (std::vector<std::string>::const_iterator it = m.getAllowedClients().begin(); it != m.getAllowedClients().end(); it++) {
+				std::cout << *it << " | ";
+			}
+			std::cout << std::endl;
+			std::cout << "Route : Methods : _deny : " << m.getDeny() << std::endl;
+			std::cout << "Route : _clientMaxBodysize : " << r.getClientMaxBodysize() << std::endl;
+			std::cout << std::endl;
+			std::cout << std::endl;
+		}
+	}
+}
