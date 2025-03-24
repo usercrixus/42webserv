@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Http.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:02:45 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:37:20 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:02:45 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ void	Http::init(std::map<std::string, std::vector<std::string> > data, std::vect
 std::vector<Server> &Http::getServers() {
 	return _servers;
 }
-std::vector<std::string>			Http::getServerName() {
+std::vector<std::string>			&Http::getServerName() {
 	return _serverName;
 }
-Server				Http::getDefaultServer() {
+Server				&Http::getDefaultServer() {
 	return _defaultServer;
 }
-const std::map<int, File>&	Http::getErrorFiles() {
+const std::map<int, File>	&Http::getErrorFiles() {
 	return _errorFiles;
 }
-std::string			Http::getClientMaxBody() {
+std::string			&Http::getClientMaxBody() {
 	return _clientMaxBody;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:08:04 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:30:24 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:09:13 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,20 +98,20 @@ void Server::init(std::map<std::string, std::vector<std::string> > data, std::ve
 std::vector<Route>			&Server::getRoutes() {
 	return _routes;
 }
-std::vector<std::string>	Server::getServerNames() {
+std::vector<std::string>	&Server::getServerNames() {
 	return _serverNames;
 }
-unsigned int				Server::getListen() {
+unsigned int				&Server::getListen() {
 	return _listen;
 }
-std::string					Server::getRoot() {
+std::string					&Server::getRoot() {
 	return _root;
 }
-std::vector<File>			Server::getIndex() {
+std::vector<File>			&Server::getIndex() {
 	return _index;
 }
 
-std::string					Server::getClientMaxBodysize() {
+std::string					&Server::getClientMaxBodysize() {
 	return _clientMaxBodysize;
 }
 

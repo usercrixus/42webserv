@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:01:14 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:30:22 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:08:23 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ class Server {
 		
 		//getters
 		std::vector<Route>			&getRoutes();
-		std::vector<std::string>	getServerNames();
-		unsigned int				getListen();
-		std::string					getClientMaxBodysize();
-		std::string					getRoot();
-		std::vector<File>			getIndex();
+		std::vector<std::string>	&getServerNames();
+		unsigned int				&getListen();
+		std::string					&getClientMaxBodysize();
+		std::string					&getRoot();
+		std::vector<File>			&getIndex();
 		const std::map<int, File>&	getErrorFiles();
 
 };

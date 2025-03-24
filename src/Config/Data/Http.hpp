@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Http.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:55:45 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 01:37:17 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:02:39 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ class Http {
 		
 		//getters
 		std::vector<Server> &getServers();
-		std::vector<std::string>			getServerName();
-		Server				getDefaultServer();
-		const std::map<int, File>&	getErrorFiles();
-		std::string			getClientMaxBody();
+		std::vector<std::string>			&getServerName();
+		Server				&getDefaultServer();
+		const std::map<int, File> &getErrorFiles();
+		std::string			&getClientMaxBody();
 };
 
 #endif

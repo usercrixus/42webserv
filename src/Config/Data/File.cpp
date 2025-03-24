@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:38:56 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/21 11:04:00 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:01:02 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ void File::buildRoot() {
 }
 
 //getters
-std::string File::getName() {
+std::string &File::getName() {
 	return _name;
 }
 
-std::string File::getRoot() {
+std::string &File::getRoot() {
 	return _root;
 }
 
-std::string File::getRelativePath() const {
+const std::string &File::getRelativePath() const {
 	return _relativePath;
 }
 
-std::string File::getExtension() {
+std::string &File::getExtension() {
 	return _extension;
 }

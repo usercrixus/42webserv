@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:27:57 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/14 15:07:56 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:00:05 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Events {
 		void	init(std::map<std::string, std::vector<std::string> > data);
 
 		// getters
-		unsigned int getWorkerConnections();
+		unsigned int &getWorkerConnections();
 };
 
 #endif

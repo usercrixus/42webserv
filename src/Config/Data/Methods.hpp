@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:11:13 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/16 16:52:45 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:02:58 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Methods {
 		//getters
 		const std::vector<std::string>& getAllowedMethods();
 		const std::vector<std::string>& getAllowedClients();
-		bool							getDeny();
+		bool							&getDeny();
 
 };
 
