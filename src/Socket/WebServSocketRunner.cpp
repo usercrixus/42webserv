@@ -1,5 +1,7 @@
 #include "WebServSocketRunner.hpp"
 
+WebServSocketRunner* WebServSocketRunner::instance = NULL;
+
 WebServSocketRunner::WebServSocketRunner(int size, WebservSocket *webservSocket):
 _serversSize(size)
 
@@ -103,4 +105,15 @@ void WebServSocketRunner::run()
             std::cerr << e.what() << '\n';
         }
     }
+}
+
+WebServSocketRunner* WebServSocketRunner::getInstance(int size, WebservSocket *webservSocket) {
+	if (!instance) {
+		instance = new WebServSocketRunner(size, webservSocket);
+	}
+	return instance;
+}
+
+void WebServSocketRunner::destroyInstance() {
+	delete instance;
 }

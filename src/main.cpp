@@ -10,6 +10,7 @@ void exitClean (int signal) {
 	
 	std::cout << "\n\nBye!" << std::endl;
 	Data::destroyInstance();
+	WebServSocketRunner::destroyInstance();
 	exit(signal);
 }
 
@@ -39,9 +40,9 @@ int main(int argc, char **argv) {
             i++;
         }
 
-        WebServSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
-        runner.setupPoll();
-        runner.run();
+        // WebServSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
+        WebServSocketRunner::getInstance(Data::getInstance()->getHttp().getServers().size(), servers)->setupPoll();
+        WebServSocketRunner::getInstance(Data::getInstance()->getHttp().getServers().size(), servers)->run();
     }
     catch(const std::exception& e)
     {

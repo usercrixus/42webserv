@@ -8,14 +8,17 @@
 class WebServSocketRunner
 {
 private:
+	static WebServSocketRunner* instance;
 	struct pollfd *_fds;
 	std::map<int, WebservSocket*> _webServerSockets;
 	int _serversSize;
-
-public:
 	WebServSocketRunner(int size, WebservSocket *webservSocket);
 	~WebServSocketRunner();
 
+public:
+
+	static WebServSocketRunner* getInstance(int size, WebservSocket *webservSocket);
+	static void destroyInstance();
 	void setupPoll();
 	WebservSocket &waitConnection();
 	void handleIncomingConnection(WebservSocket &buffer);
