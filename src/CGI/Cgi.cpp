@@ -1,6 +1,6 @@
 #include "Cgi.hpp"
 
-
+/* ======= COOKIES ======= */
 std::vector<std::string> my_split(const std::string& str, char delimiter)
 {
     std::vector<std::string> tokens;
@@ -71,6 +71,7 @@ void	Cgi::setCookies(std::string query)
 	}
 }
 
+/* ======= VARIABLES d'ENVIRONNEMENT ======= */
 
 std::string Cgi::getPathInfo(std::string &path, std::string &root)
 {
@@ -134,6 +135,20 @@ std::string Cgi::getCgiPath(Request& request)
     return NULL;
 }
 
+std::string Cgi::getContentType(Request& request)
+{
+    std::string contentType = request.getHeader("Content-Type");
+    return (contentType);
+}
+
+std::string Cgi::getContentLength(Request& request)
+{
+    std::string contentLength = request.getHeader("Content-Length");
+    return (contentLength);
+}
+
+/* ======= METHODS ======= */
+
 void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 {
 	std::string root = Data::getInstance()->getHttp().getServers()[request.getServerId()].getRoot();
@@ -141,8 +156,8 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	std::string SCRIPT_FILENAME = getScriptFilename(path);
     std::string QUERY_STRING = getQueryString(path);
 	std::string CGI_PATH = getCgiPath(request);
-    // std::string CONTENT_LENGTH = ""; //a prendre dans le header de la requete
-    // std::string CONTENT_TYPE = ""; //a prendre dans le header de la requete
+    std::string CONTENT_LENGTH = getContentLength(request);
+    std::string CONTENT_TYPE = getContentType(request);
     std::string REDIRECT_STATUS = "200";
 	std::map<std::string, std::string> requestCookies = request.getCookies();
 
@@ -155,8 +170,9 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
         _body = "405 Method Not Allowed";
         return;
     }
-	int pipefd[2];
-    if (pipe(pipefd) == -1) {
+    int input_pipe[2];
+    int output_pipe[2];
+    if (pipe(input_pipe) == -1 || pipe(output_pipe) == -1) {
         _status = 500;
         _body = "500 Internal Server Error - Pipe failed";
         return;
@@ -170,8 +186,8 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
 	env_strings.push_back("SCRIPT_FILENAME=" + SCRIPT_FILENAME);
 	env_strings.push_back("PATH_INFO=" + PATH_INFO);
 	env_strings.push_back("QUERY_STRING=" + QUERY_STRING);
-	env_strings.push_back("CONTENT_LENGTH=");//a prendre dans le header de la requete
-    env_strings.push_back("CONTENT_TYPE= "); //a prendre dans le header de la requete
+	env_strings.push_back("CONTENT_LENGTH=" + CONTENT_LENGTH);
+    env_strings.push_back("CONTENT_TYPE=" + CONTENT_TYPE);
     env_strings.push_back("REDIRECT_STATUS=" + REDIRECT_STATUS);
 	std::vector<char*> envp;
     for (size_t i = 0; i < env_strings.size(); ++i) {
@@ -182,34 +198,40 @@ void	Cgi::HandleCgiPOST(Request& request, std::string& path)
     if (pid == -1) {
         _status = 500;
         _body = "500 Internal Server Error - Fork failed";
-        close(pipefd[0]);
-        close(pipefd[1]);
+        close(input_pipe[0]);
+        close(input_pipe[1]);
+        close(output_pipe[0]);
+        close(output_pipe[1]);
         return;
     }
 	if (pid == 0)
 	{
-        close(pipefd[0]);
-        write(pipefd[1], request.getBody().c_str(), request.getBody().size());
-        close(pipefd[1]);
-        dup2(pipefd[1], STDOUT_FILENO);
-        dup2(pipefd[0], STDIN_FILENO);
-        close(pipefd[1]);
+        write(input_pipe[1], request.getBody().c_str(), request.getBody().size());
+        dup2(input_pipe[0], STDIN_FILENO);
+        close(input_pipe[0]);
+        close(input_pipe[1]);
+        dup2(output_pipe[1], STDOUT_FILENO);
+        close(output_pipe[0]);
+        close(output_pipe[1]);
+    
         execve(CGI_PATH.c_str(), argv.data(), envp.data());
         std::cerr << "Erreur lors de l'exécution du CGI\n";
         exit(1);
 	}
 	else
 	{
-		close(pipefd[1]);
+        close(input_pipe[0]);
+        close(input_pipe[1]);
+        close(output_pipe[1]);
         char buffer[1024];
         std::string response;
         ssize_t count;
-        while ((count = read(pipefd[0], buffer, sizeof(buffer) - 1)) > 0)
+        while ((count = read(output_pipe[0], buffer, sizeof(buffer) - 1)) > 0)
 		{
             buffer[count] = '\0';
             response += buffer;
         }
-        close(pipefd[0]);
+        close(output_pipe[0]);
         waitpid(pid, NULL, 0);
         if (!response.empty()) {
             _status = 200;
