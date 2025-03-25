@@ -1,11 +1,20 @@
 Post :
-curl -X POST -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}' http://localhost:8080/test
+curl -X POST -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}' http://localhost:8080/files // should succeed
+curl -X POST -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}' http://localhost:8080//list // should fail
 Delete :
-curl -X DELETE http://localhost:8080/test
+curl -X DELETE http://localhost:8080/files // should succeed
+curl -X DELETE http://localhost:8080/list // should fail
 Get :
-Full static : http://localhost:8081/
+Full static : http://localhost:8081/ // should display the full static website
 More test
-http://localhost:8080/
-http://localhost:8080/list
-http://localhost:8080/ghost
-http://localhost:8080/google
+http://localhost:8080/ // display index
+http://localhost:8080/list // display list of files
+http://localhost:8080/ghost // redirect intern
+http://localhost:8080/google // redicted to google
+http://localhost:8080/cgi-bin1/script.php // script + cookie
+http://localhost:8080/cgi-bin2/script.php // script + cookie
+http://localhost:8080/content // server a different path
+http://localhost:8080/blocked-list // impossible to list 404 (not forbidden for security)
+
+CGI TODO:
+curl -X POST -d 'data in lower case return data in upper case' http://localhost:8080/cgi-bin1/script2.php // should return body data in upper case
