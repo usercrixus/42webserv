@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:55:45 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:58:29 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:02:58 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class Http {
 		Http();
 		Http(std::map<std::string, std::vector<std::string> > data, std::vector<Server> servers, std::map<int, File> errorFiles);
 		~Http();
-		// Http operator=(Http& other);
 
 		// methods
 		void init(std::map<std::string, std::vector<std::string> > data, std::vector<Server> servers, std::map<int, File> errorFiles);

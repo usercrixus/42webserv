@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:08:04 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:58:11 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:05:09 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,12 @@
 Server::Server() {};
 
 Server::Server(std::map<std::string, std::vector<std::string> > data, std::vector<Route> routes, std::map<int, File> errorFiles) {
-	// std::cout << "Server constructed!" << std::endl;
-	// for (std::map<std::string, std::vector<std::string> >::iterator it = data.begin(); it != data.end(); it++) {
-	// 	std::cout << "Key : " << it->first << " | Value : ";
-	// 	printVector(it->second);
-	// 	std::cout << std::endl;
-	// }
 	this->init(data, routes, errorFiles);
 }
 
 Server::~Server() {};
 
-// Server Server::operator=(Server &other) {
-// 	this->_routes = other._routes;
-// 	this->_serverNames = other._serverNames;
-// 	this->_listen = other._listen;
-// 	this->_clientMaxBodysize = other._clientMaxBodysize;
-// 	this->_root = other._root;
-// 	this->_index = other._index;
-// 	this->_errorFiles = other._errorFiles;
-// 	return *this;
-// }
-
 void Server::init(std::map<std::string, std::vector<std::string> > data, std::vector<Route> routes, std::map<int, File> errorFiles) {
-	// Voir si oblige d'avoir au moins une route ? Si oui verif + throw
 	_routes = routes;
 	_errorFiles = errorFiles;
 	try {

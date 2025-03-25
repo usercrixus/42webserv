@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:38:56 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 16:01:02 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:02:46 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void File::buildExtension() {
 	size_t ext = file.rfind('.');
 	
 	if (ext == std::string::npos) {
-		// Gerer cas particulier
 		_extension = "";
 	}
 	else {
@@ -63,7 +62,6 @@ void File::buildName() {
 	size_t ext = file.rfind('/');
 	
 	if (ext == std::string::npos) {
-		// Gerer cas particulier
 		_name = "";
 	}
 	else {
@@ -76,7 +74,6 @@ void File::buildRoot() {
 	size_t ext = file.rfind('/');
 	
 	if (ext == std::string::npos) {
-		// Gerer cas particulier
 		_root = "";
 	}
 	else {

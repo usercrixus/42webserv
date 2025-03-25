@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:01:14 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/24 17:57:07 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:06:09 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ class Server {
 		std::string					_root;
 		std::vector<File>			_index;
 		std::map<int, File>			_errorFiles;
-		// ajouter aussi _errorPages;
 	
 	public :
 		Server();
 		Server(std::map<std::string, std::vector<std::string> > data, std::vector<Route> routes, std::map<int, File> errorFiles);
 		~Server();
-		//Server operator=(Server &other);
 
 		// methods
 		void		init(std::map<std::string, std::vector<std::string> > data, std::vector<Route> routes, std::map<int, File> errorFiles);

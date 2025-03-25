@@ -6,7 +6,7 @@
 /*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:58:20 by lperthui          #+#    #+#             */
-/*   Updated: 2025/03/25 00:23:03 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:04:45 by lperthui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 Route::Route() {}
 
 Route::Route(std::map<std::string, std::vector<std::string> > data, std::string location, Methods method, std::map<int, File> errorFiles) {
-	// std::cout << "Route constructed!" << std::endl;
-	// for (std::map<std::string, std::vector<std::string> >::iterator it = data.begin(); it != data.end(); it++) {
-	// 	std::cout << "Key : " << it->first << " | Value : ";
-	// 	printVector(it->second);
-	// 	std::cout << std::endl;
-	// }
 	this->init(data, location, method, errorFiles);
 }
 
@@ -45,10 +39,7 @@ Route::~Route() {}
 //methods
 
 void Route::init(std::map<std::string, std::vector<std::string> > data, std::string location, Methods method, std::map<int, File> errorFiles) {
-	// reste a init la liste de fichier d'erreure le default file et _files
 	_location = location;
-	// verifier avant que les parametres dans fastcgiParam sont valide
-	// _fastcgiParam = fastcgiParam;
 	_methods = method;
 	_errorFiles = errorFiles;
 	try {
@@ -73,7 +64,6 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 		else if (value.size() > 2){
 			_redirection = value[2];
 		}
-		// reste a gerer si size() > 3
 		_redirectionCode = atoi(value[1].c_str());
 	}
 	catch (std::logic_error & e) {
@@ -88,7 +78,7 @@ void Route::init(std::map<std::string, std::vector<std::string> > data, std::str
 		}
 		if (value[1] == "on")
 			_autoIndex = 1;
-		else // gerer si ni on, ni off, ou si il n y a pas de param
+		else
 			_autoIndex = 0;
 	}
 	catch (std::logic_error & e) {
