@@ -15,7 +15,8 @@ void exitClean (int signal) {
 }
 
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	signal(SIGINT, exitClean);
 	if (argc > 2) {
 		std::cout << "Usage: ./webserv [configuration file]" << std::endl;
@@ -39,8 +40,6 @@ int main(int argc, char **argv) {
             servers[i].setupSocket();
             i++;
         }
-
-        // WebServSocketRunner runner(Data::getInstance()->getHttp().getServers().size(), servers);
         WebServSocketRunner::getInstance(Data::getInstance()->getHttp().getServers().size(), servers)->setupPoll();
         WebServSocketRunner::getInstance(Data::getInstance()->getHttp().getServers().size(), servers)->run();
     }
@@ -51,6 +50,3 @@ int main(int argc, char **argv) {
 	std::cout << "test" << std::endl;
     return 0;
 }
-
-// Check aussi comment faire les redirections
-// Faire pleins de tests (avec les curl en exemple etc, bien comprendre comment tout marche)

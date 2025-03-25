@@ -12,13 +12,10 @@ void Request::parse(const std::string& rawRequest)
     std::istringstream requestStream(rawRequest);
     std::string line;
 
-    // Parse request line (e.g., "GET /index.html HTTP/1.1")
     if (std::getline(requestStream, line)) {
         std::istringstream lineStream(line);
         lineStream >> _method >> _path;
     }
-
-    // Parse headers
     while (std::getline(requestStream, line) && line != "\r") {
         size_t colonPos = line.find(':');
         if (colonPos != std::string::npos) {
@@ -27,11 +24,9 @@ void Request::parse(const std::string& rawRequest)
             _headers[key] = value;
         }
     }
-
-    // Extract body (C++98 compatible way)
     std::stringstream bodyStream;
     bodyStream << requestStream.rdbuf();
-    _body = bodyStream.str();  // Copy the entire buffer into `_body`
+    _body = bodyStream.str();
 }
 
 std::map<std::string, std::string> Request::getCookies() const

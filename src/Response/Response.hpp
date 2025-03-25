@@ -13,6 +13,7 @@
 
 class Response {
 private:
+    static const std::map<std::string, std::string> _mimes;
     std::string _headers;
     std::string _body;
     
@@ -27,6 +28,10 @@ private:
 
 public:
     Response();
+
+    std::string getExtension(std::string name);
+
+    std::string getMime(std::string fileName);
 
     void setHeader(int statusCode, std::string path, Route &route, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());
     void setHeader(int statusCode, std::string path, const std::map<std::string, std::string>& cookies = std::map<std::string, std::string>());

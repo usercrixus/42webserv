@@ -6,7 +6,6 @@ SRC_FILES = src/main \
 		src/Socket/WebServSocketRunner \
 		src/Request/Request \
 		src/Response/Response \
-		src/Response/mimes \
 		src/Method/MethodPost \
 		src/Method/MethodGet \
 		src/Method/MethodDelete \

@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:09 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/20 18:39:47 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:59:28 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,4 @@ class MethodDelete : public IMethod
 		void handle();
 };
 
-#endif // METHODDELETE_HPP
+#endif

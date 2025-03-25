@@ -21,4 +21,4 @@ class Socket {
 		int getFd() const;
 };
 
-#endif // SOCKET_HPP
+#endif

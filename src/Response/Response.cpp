@@ -1,8 +1,64 @@
 #include "Response.hpp"
 
+std::map<std::string, std::string> initMimes()
+{
+    std::map<std::string, std::string> m;
+    m[".html"] = "text/html";
+    m[".htm"]  = "text/html";
+    m[".css"]  = "text/css";
+    m[".js"]   = "application/javascript";
+    m[".json"] = "application/json";
+    m[".xml"]  = "application/xml";
+    m[".png"]  = "image/png";
+    m[".jpg"]  = "image/jpeg";
+    m[".jpeg"] = "image/jpeg";
+    m[".gif"]  = "image/gif";
+    m[".svg"]  = "image/svg+xml";
+    m[".ico"]  = "image/x-icon";
+    m[".wav"]  = "audio/wav";
+    m[".mp3"]  = "audio/mpeg";
+    m[".ogg"]  = "audio/ogg";
+    m[".mp4"]  = "video/mp4";
+    m[".mpeg"] = "video/mpeg";
+    m[".webm"] = "video/webm";
+    m[".pdf"]  = "application/pdf";
+    m[".zip"]  = "application/zip";
+    m[".gz"]   = "application/gzip";
+    m[".txt"]  = "text/plain";
+    m[".csv"]  = "text/csv";
+    return m;
+}
+const std::map<std::string, std::string> Response::_mimes = initMimes();;
+
 Response::Response() {}
 
-void Response::setStatus(int statusCode) {
+std::string Response::getExtension(std::string name)
+{
+	size_t ext = name.rfind('.');
+	
+	if (ext == std::string::npos) {
+		return "";
+	}
+	else {
+		return name.substr(ext);
+	}
+}
+
+std::string Response::getMime(std::string fileName)
+{
+	std::string extension = getExtension(fileName);
+	std::map<std::string, std::string>::const_iterator it = _mimes.find(extension);
+	if (it != _mimes.end()) {
+		return it->second;
+	}
+	else {
+		return "Content-Type: application/octet-stream";
+	}
+}
+
+
+void Response::setStatus(int statusCode)
+{
     switch (statusCode) {
         case 200: _headers += "HTTP/1.1 200 OK\r\n"; break;
         case 204: _headers += "HTTP/1.1 204 No Content\r\n"; break; 

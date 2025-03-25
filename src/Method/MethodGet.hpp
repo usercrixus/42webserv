@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:50 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/22 16:50:00 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:59:45 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include "IMethod.hpp"
 #include "../Request/Request.hpp"
 #include <map>
-#include <dirent.h>  // For directory listing
-#include <sstream>   // For building HTML directory listing
+#include <dirent.h>
+#include <sstream>
 #include <iostream>
 
 class MethodGet : public IMethod {
@@ -37,4 +37,4 @@ class MethodGet : public IMethod {
         void sendResponse();
 };
 
-#endif // METHODGET_HPP
+#endif
