@@ -6,7 +6,7 @@
 /*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:38:13 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/25 00:42:57 by achaisne         ###   ########.fr       */
+/*   Updated: 2025/03/25 01:23:30 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ MethodGet::MethodGet(Request &request):
 IMethod(request)
 {
 }
-
 MethodGet::~MethodGet()
 {
 }
@@ -107,7 +106,7 @@ void MethodGet::handleContentRequest(std::string& path)
 void MethodGet::handleFileRequest(std::string& path)
 {
 	std::ifstream file(path.c_str());
-	if (!file)
+	if (isDirectory(path) || !file)
 	{
 		_response.setBody(getPageError(404));
 		_response.setHeader(404, getPathError(404));
