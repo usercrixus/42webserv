@@ -50,19 +50,58 @@ WebservSocket& WebServSocketRunner::waitConnection()
 }
 
 
-std::string readSocketData(int socketFd)
+std::string WebServSocketRunner::readHeaders(int socketFd)
 {
-    std::string data;
-    char buffer[1024];
+    std::string headers;
+    char buffer[4096];
     int bytesRead;
-    
-    while (data.find("\r\n\r\n") == std::string::npos 
-            && (bytesRead = recv(socketFd, buffer, sizeof(buffer) - 1, 0)) > 0) {
+
+    while ((bytesRead = recv(socketFd, buffer, sizeof(buffer) - 1, 0)) > 0)
+    {
         buffer[bytesRead] = '\0';
-        data.append(buffer, bytesRead);
+        headers.append(buffer, bytesRead);
+        if (headers.find("\r\n\r\n") != std::string::npos)
+            break;
     }
-    return data;
+    return headers;
 }
+
+int WebServSocketRunner::extractContentLength(const std::string& headers)
+{
+    size_t contentLengthPos = headers.find("Content-Length:");
+    if (contentLengthPos == std::string::npos)
+        return 0;  // Assume no body
+    size_t start = contentLengthPos + 15;
+    size_t end = headers.find("\r\n", start);
+    return std::atoi(headers.substr(start, end - start).c_str());
+}
+
+std::string WebServSocketRunner::readBody(int socketFd, int contentLength)
+{
+    std::string body;
+    char buffer[4096];
+    int bytesRead;
+
+    while (body.size() < static_cast<size_t>(contentLength))
+    {
+        bytesRead = recv(socketFd, buffer, sizeof(buffer) - 1, 0);
+        if (bytesRead <= 0) 
+            break;
+        buffer[bytesRead] = '\0';
+        body.append(buffer, bytesRead);
+    }
+    return body;
+}
+
+std::string WebServSocketRunner::readSocketData(int socketFd)
+{
+    std::string headers = readHeaders(socketFd);
+    int contentLength = extractContentLength(headers);
+    std::string body = readBody(socketFd, contentLength);
+
+    return headers + body;
+}
+
 
 void WebServSocketRunner::handleIncomingConnection(WebservSocket &buffer)
 {

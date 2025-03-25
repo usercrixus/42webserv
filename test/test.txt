@@ -18,3 +18,4 @@ http://localhost:8080/blocked-list // impossible to list 404 (not forbidden for 
 
 CGI TODO:
 curl -X POST -d 'data in lower case return data in upper case' http://localhost:8080/cgi-bin1/script2.php // should return body data in upper case
+curl -X POST -F "file=@/home/achaisne/Documents/42webserv/Makefile" http://localhost:8080/upload.txt

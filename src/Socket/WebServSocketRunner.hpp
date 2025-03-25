@@ -14,6 +14,10 @@ private:
 	int _serversSize;
 	WebServSocketRunner(int size, WebservSocket *webservSocket);
 	~WebServSocketRunner();
+	std::string readHeaders(int socketFd);
+	int extractContentLength(const std::string &headers);
+	std::string readBody(int socketFd, int contentLength);
+	std::string readSocketData(int socketFd);
 
 public:
 
