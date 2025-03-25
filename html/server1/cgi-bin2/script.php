@@ -7,7 +7,7 @@ echo "<!DOCTYPE html>\n";
 echo "<html lang=\"en\">\n";
 echo "<head>\n";
 echo "    <meta charset=\"UTF-8\">\n";
-echo "    <title>Bonjour</title>\n";
+echo "    <title>CGI2</title>\n";
 echo "</head>\n";
 echo "<body>\n";
 echo "    <h1>SALUT, " . htmlspecialchars($name) . " !</h1>\n";

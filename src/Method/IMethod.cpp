@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IMethod.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lperthui <lperthui@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achaisne <achaisne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:37:59 by achaisne          #+#    #+#             */
-/*   Updated: 2025/03/25 00:02:24 by lperthui         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:50:27 by achaisne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,15 @@ std::string IMethod::getFinalPath()
     Route *route = getRoute();
 
 	if (_request.getPath().compare("/") == 0)
+    {
 		path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getIndex()[0].getRelativePath();
+    }
 	else if (route)
     {
-        path = route->getRoot();
-        path += route->getIndex();
-		std::cout << "Index: " << route->getIndex() << std::endl;
-        std::cout << "testhere0: " << path << std::endl;
+        if (route->getRoot().empty())
+            path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + _request.getPath() + route->getIndex();
+        else
+            path = Data::getInstance()->getHttp().getServers()[_request.getServerId()].getRoot() + route->getRoot() + route->getIndex();
     }
     else
     {
